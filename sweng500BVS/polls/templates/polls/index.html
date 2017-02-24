@@ -25,34 +25,36 @@
 		{# Display django.contrib.messages as Bootstrap alerts #}
 		{% bootstrap_messages %}
 	</head>
+	<div class="page-header">
+	  {% buttons %}
 
-  {% buttons %}
-
- 	<button type="submit" class="btn btn-primary"><a href="{% url 'polls:index'  %}"></a>
-      {% bootstrap_icon "home" %}
-    </button>
-    <button type="submit" class="btn btn-primary">
-      {% bootstrap_icon "info-sign" %} 
-    </button>
-    <button type="submit" class="btn btn-primary">
-      {% bootstrap_icon "user" %} Admin Login
-    </button>
-     <button type="submit" class="btn btn-primary">
-      {% bootstrap_icon "user" %} User Login
-    </button>
-
-
-  {% endbuttons %}
+	 	<button type="submit" class="btn btn-primary"><a href="{% url 'polls:index'  %}"></a>
+	      {% bootstrap_icon "home" %}
+	    </button>
+	    <button type="submit" class="btn btn-primary">
+	      {% bootstrap_icon "info-sign" %} 
+	    </button>
+	    <button type="submit" class="btn btn-primary">
+	      {% bootstrap_icon "user" %} Admin Login
+	    </button>
+	     <button type="submit" class="btn btn-primary">
+	      {% bootstrap_icon "user" %} User Login
+	    </button>
 
 
-<div class="row">
-  <div class="col-md-4"></div>
-  <div class="col-md-4">
-  		<h1> Ballots </h1>
-		<h1> {{ ballot.ballot_text }}</h1>
-		<small>Select a Ballot:</small>
-  </div>
- <div class="col-md-4"></div> 
+	  {% endbuttons %}
+
+
+		<div class="row">
+		  <div class="col-md-4"></div>
+		  <div class="col-md-4">
+		  		<h1> Ballots </h1>
+				<h1> {{ ballot.ballot_text }}</h1>
+				<small>Select a Ballot:</small>
+		  </div>
+		 <div class="col-md-4"></div> 
+
+	</div>
 </div>
 	{% if latest_ballot_list %}
 		<ul>
