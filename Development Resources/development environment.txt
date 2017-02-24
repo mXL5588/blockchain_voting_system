@@ -39,5 +39,13 @@ $ ls $WORKON_HOME
 Switch between environments with (case sensitive):
 $ workon envname
 
+Remove Packages:
+# list all packages
+$ dpkg --list 
+
+#remove a package
+$ sudo apt-get --purge remove [package name]
+
+
 
 

@@ -1,3 +1,26 @@
+
+Counterparty Testnet :
+
+Counterparty Key -
+grandma ache laugh position mistake bottle whistle crave desperate sanctuary cheek juice
+
+childhood prove tiny worship radio size wheel lazy beneath honest water balance
+
+
+Wallet Login URL - 
+https://counterwallet-testnet.coindaddy.io/#cp=U2FsdGVkX18L2UPzVL4MfNGp6crzMwWhbY/CKKIgvoQR+Ww3HYB0pEHp4b/hjE50xF06o1X4kiYCQISSQ3RhU6lLZhPRDUq2UTDH96MTe9ZCmJYcB46WWnOK/Sa/5zI7YSFneP0QQlxv7NE2kubE5A==
+
+Wallet Login URL Password: apple
+
+Blockexplorer: https://testnet.counterpartychain.io/
+
+Youtube -
+Asset Issuance
+https://www.youtube.com/watch?v=eyzA5Lj1ajM
+
+Blockchain:
+https://www.youtube.com/watch?v=_160oMzblY8
+
 #Counterpart Commands:
 
 Then, launch the daemon via:
@@ -104,3 +127,118 @@ It also runs the `integration_test.test_book` tests, which reparse the bootstrap
 # Further Reading
 
 * [Official Project Documentation](http://counterparty.io/docs/)  
+
+#Client --help
+[2017-02-24 00:18:36][INFO] Running v1.1.2 of counterparty-client.
+usage: counterparty-client [-h] [-V] [--config-file CONFIG_FILE] [-v]
+                           [--testnet] [--testcoin]
+                           [--counterparty-rpc-connect COUNTERPARTY_RPC_CONNECT]
+                           [--counterparty-rpc-port COUNTERPARTY_RPC_PORT]
+                           [--counterparty-rpc-user COUNTERPARTY_RPC_USER]
+                           [--counterparty-rpc-password COUNTERPARTY_RPC_PASSWORD]
+                           [--counterparty-rpc-ssl]
+                           [--counterparty-rpc-ssl-verify]
+                           [--wallet-name WALLET_NAME]
+                           [--wallet-connect WALLET_CONNECT]
+                           [--wallet-port WALLET_PORT]
+                           [--wallet-user WALLET_USER]
+                           [--wallet-password WALLET_PASSWORD] [--wallet-ssl]
+                           [--wallet-ssl-verify] [--json-output]
+                           [--unconfirmed] [--encoding ENCODING]
+                           [--fee-per-kb FEE_PER_KB]
+                           [--regular-dust-size REGULAR_DUST_SIZE]
+                           [--multisig-dust-size MULTISIG_DUST_SIZE]
+                           [--op-return-value OP_RETURN_VALUE] [--unsigned]
+                           [--disable-utxo-locks]
+                           [--dust-return-pubkey DUST_RETURN_PUBKEY]
+                           [--requests-timeout REQUESTS_TIMEOUT]
+                           {send,order,btcpay,issuance,broadcast,bet,dividend,burn,cancel,publish,execute,destroy,balances,asset,wallet,pending,getrows,getinfo,get_tx_info}
+                           ...
+
+Counterparty CLI for counterparty-server
+
+positional arguments:
+  {send,order,btcpay,issuance,broadcast,bet,dividend,burn,cancel,publish,execute,destroy,balances,asset,wallet,pending,getrows,getinfo,get_tx_info}
+                        the action to be taken
+    send                create and broadcast a *send* message
+    order               create and broadcast an *order* message
+    btcpay              create and broadcast a *BTCpay* message, to settle an
+                        Order Match for which you owe BTC
+    issuance            issue a new asset, issue more of an existing asset or
+                        transfer the ownership of an asset
+    broadcast           broadcast textual and numerical information to the
+                        network
+    bet                 offer to make a bet on the value of a feed
+    dividend            pay dividends to the holders of an asset (in
+                        proportion to their stake in it)
+    burn                destroy {} to earn XCP, during an initial period of
+                        time
+    cancel              cancel an open order or bet you created
+    publish             publish contract code in the blockchain
+    execute             execute contract code in the blockchain
+    destroy             destroy a quantity of a Counterparty asset
+    balances            display the balances of a Counterparty address
+    asset               display the basic properties of a Counterparty asset
+    wallet              list the addresses in your backend wallet along with
+                        their balances in all Counterparty assets
+    pending             list pending order matches awaiting BTCpayment from
+                        you
+    getrows             get rows from a Counterparty table
+    getinfo             get the current state of the server
+    get_tx_info         display info of a raw TX
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -V, --version         show program's version number and exit
+  --config-file CONFIG_FILE
+                        the location of the configuration file
+  -v, --verbose         sets log level to DEBUG instead of WARNING
+  --testnet             use Bitcoin testnet addresses and block numbers
+  --testcoin            use the test Counterparty network on every blockchain
+  --counterparty-rpc-connect COUNTERPARTY_RPC_CONNECT
+                        the hostname or IP of the Counterparty JSON-RPC server
+  --counterparty-rpc-port COUNTERPARTY_RPC_PORT
+                        the port of the Counterparty JSON-RPC server
+  --counterparty-rpc-user COUNTERPARTY_RPC_USER
+                        the username for the Counterparty JSON-RPC server
+  --counterparty-rpc-password COUNTERPARTY_RPC_PASSWORD
+                        the password for the Counterparty JSON-RPC server
+  --counterparty-rpc-ssl
+                        use SSL to connect to the Counterparty server
+                        (default: false)
+  --counterparty-rpc-ssl-verify
+                        verify SSL certificate of the Counterparty server;
+                        disallow use of self‐signed certificates (default:
+                        false)
+  --wallet-name WALLET_NAME
+                        the wallet name to connect to
+  --wallet-connect WALLET_CONNECT
+                        the hostname or IP of the wallet server
+  --wallet-port WALLET_PORT
+                        the wallet port to connect to
+  --wallet-user WALLET_USER
+                        the username used to communicate with wallet
+  --wallet-password WALLET_PASSWORD
+                        the password used to communicate with wallet
+  --wallet-ssl          use SSL to connect to wallet (default: false)
+  --wallet-ssl-verify   verify SSL certificate of wallet; disallow use of
+                        self‐signed certificates (default: false)
+  --json-output         display result in json format
+  --unconfirmed         allow the spending of unconfirmed transaction outputs
+  --encoding ENCODING   data encoding method
+  --fee-per-kb FEE_PER_KB
+                        fee per kilobyte, in BTC
+  --regular-dust-size REGULAR_DUST_SIZE
+                        value for dust Pay‐to‐Pubkey‐Hash outputs, in BTC
+  --multisig-dust-size MULTISIG_DUST_SIZE
+                        for dust OP_CHECKMULTISIG outputs, in BTC
+  --op-return-value OP_RETURN_VALUE
+                        value for OP_RETURN outputs, in BTC
+  --unsigned            print out unsigned hex of transaction; do not sign or
+                        broadcast
+  --disable-utxo-locks  disable locking of UTXOs being spend
+  --dust-return-pubkey DUST_RETURN_PUBKEY
+                        pubkey for dust outputs (required for P2SH)
+  --requests-timeout REQUESTS_TIMEOUT
+                        timeout value (in seconds) used for all HTTP requests
+                        (default: 5)

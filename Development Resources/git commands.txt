@@ -11,4 +11,56 @@ Define the author name to be used for all commits in the current repository. Typ
 
 git config --global user.name <name>
 
-https://github.com/mXL5588/py_blockchain_voting_system.git
+Project Repository:
+https://github.com/mXL5588/blockchain_voting_system.git
+
+
+Git Branches:
+https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
+
+# Create new branch
+$ git checkout -b iss53
+Switched to a new branch "iss53"
+
+# Make Changes and commit to branch
+$ git commit -a -m 'added a new footer [issue 53]'
+
+# Switch to master 
+$ git checkout master
+Switched to branch 'master'
+
+$ git checkout -b hotfix
+Switched to a new branch 'hotfix'
+$ vim index.html
+$ git commit -a -m 'fixed the broken email address'
+[hotfix 1fb7853] fixed the broken email address
+ 1 file changed, 2 insertions(+)
+
+
+$ git checkout master
+$ git merge hotfix
+Updating f42c576..3a0874c
+Fast-forward
+ index.html | 2 ++
+ 1 file changed, 2 insertions(+)
+
+$ git branch -d hotfix
+Deleted branch hotfix (3a0874c).
+
+
+$ git checkout iss53
+Switched to branch "iss53"
+$ vim index.html
+$ git commit -a -m 'finished the new footer [issue 53]'
+[iss53 ad82d7a] finished the new footer [issue 53]
+1 file changed, 1 insertion(+)
+
+
+$ git checkout master
+Switched to branch 'master'
+$ git merge iss53
+Merge made by the 'recursive' strategy.
+index.html |    1 +
+1 file changed, 1 insertion(+)
+
+$ git branch -d iss53
