@@ -1,0 +1,99 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.css' %}">
+		<link rel="script" href="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}">
+		<link rel="stylesheet" href="{% static 'css/polls.css' %}">
+		{# Load the tag library #}
+		{% load bootstrap3 %}
+
+		{# Load CSS and JavaScript #}
+		{% bootstrap_css %}
+		{% bootstrap_javascript %}
+
+		{# Display django.contrib.messages as Bootstrap alerts #}
+		{% bootstrap_messages %}
+
+		
+
+	</head>
+	<body>
+
+		
+
+	<div class="page-header">
+
+
+		{% buttons %}
+
+		 	<button class="btn btn-primary"><a href="/"></a>
+		      {% bootstrap_icon "home" %}
+		    	
+		    </button>
+  		{% endbuttons %}
+
+		<h1>{{ ballot.ballot_text }}</h1>
+		<small>Select a ballot candidate:</small>
+
+
+	</div>
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+
+	<form action="{% url 'polls:vote' ballot.id %}" method="post">
+
+	{% csrf_token %}
+	{% for choice in ballot.choice_set.all %}
+		<input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{ choice.id }}" />
+		<label for="choice{{ forloop.counter }}" > {{ choice.choice_text }}</label>
+		<!-- Display/Hide Counterparty Address -->
+		<br />
+		<small for="choice{{ forloop.counter }}" > Candidate Address: {{ choice.choice_address }}</small>
+		<br />
+
+		{% endfor %}
+
+
+	<!-- Single button -->
+		<div class="btn-group">
+		  <button type="button submit" value="Vote" class="btn btn-danger">Vote</button>
+		</div>
+
+		<br />
+		<br />
+
+
+		<div class="btn-group btn-group-justified" role="group" aria-label="...">
+		  <div class="btn-group" role="group">
+		    <button type="button" class="btn btn-default" ><a href="{% url 'polls:index' %}"></a>Go Back</button>
+		  </div>
+		  <div class="btn-group" role="group">
+		    <button type="button" class="btn btn-default">Previous Ballot</button>
+		  </div>
+		  <div class="btn-group" role="group">
+		 
+		  </div>
+		</div>
+
+	</body>
+
+	<div class="page-footer">
+
+	</div>
+
+	</form>
+</html>
+
+
+<!--<ul>
+{% for choice in ballot.choice_set.all %}
+	<li>{{ choice.choice_text }}</li>
+{% endfor %}
+</ul>
+-->

@@ -1,0 +1,43 @@
+sudo password: sweng
+
+To enter Dev Environment:
+1. Open Terminal
+1.1. Type 'cd ~/Documents/BVS/sweng500BVS' to enter project directory
+1.2 Upgrade devBVS to python3.4 by typing 'mkvirtualenv -p python3.4 devBVS'
+2. Open Sublime Text (The project directory should be automatically loaded)
+3. Enter the virtualenv
+3.1. Type 'workon devBVS'
+4. Type 'python manage.py runserver' to run python server
+5. Load firefox and navigate to 'http://127.0.0.1:8000/polls/'
+6. Control + C to shutdown server
+7. Exit dev environment by typing 'deactivate'
+
+
+Links:
+
+virtualenv documentation: https://virtualenv.pypa.io/
+virtualenvwrapper documentation: https://virtualenvwrapper.readthedocs.io/en/latest/
+Python guide: docs.python-guide.org/en/latest/dev/virtualenvs/
+Bootstrap guide: https://django-bootstrap3.readthedocs.io/en/latest/templatetags.html
+
+Helpful Commands:
+Check django version:
+$ python -m django --version
+
+Create virtualenv:
+$ mkvirtualenv env1
+
+Deactivate/Exit Virtualenv:
+$ deactivate
+
+See the new package with:
+$ lssitepackages
+
+View virtualenvs:
+$ ls $WORKON_HOME
+
+Switch between environments with (case sensitive):
+$ workon envname
+
+
+

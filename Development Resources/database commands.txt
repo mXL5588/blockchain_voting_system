@@ -1,0 +1,42 @@
+Admin login:
+Username: sweng500
+Password: sweng500
+
+Database modify:
+$ python manage.py shell
+
+from polls.models Ballot, Choice
+from django.utils  import timezone
+
+
+Ballot.objects.all()
+
+b = Ballot(ballot_text="[BALLOT NAME]", pub_date=timezone.now())
+b.save()
+
+Ballot.objects.get(id=2)
+
+b = Ballot.objects.get(pk=1)
+b.was_published_recently()
+
+b.choice_set.all()
+
+
+b.choice_set.create(choice_text='[CANDIDATE NAME]', votes=0)
+
+# Delete choice
+c = b.choice_set.filter(choice_text__startswith='[SEARCH CRITERIA]')
+c.delete()
+
+
+
+Update Django Database from models:
+$ python manage.py makemigrations polls
+
+Migrate changes to sqllite
+$ python manage.py sqlmigrate polls 0001
+
+$ python manage.py migrate
+
+
+

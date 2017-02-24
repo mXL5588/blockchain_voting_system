@@ -1,0 +1,14 @@
+
+Git Commands:
+Initialize a repository
+git init
+
+Add a file for a commit
+git add .
+
+
+Define the author name to be used for all commits in the current repository. Typically, you’ll want to use the --global flag to set configuration options for the current user.
+
+git config --global user.name <name>
+
+https://github.com/mXL5588/py_blockchain_voting_system.git
