@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load poll_extras %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +39,17 @@
 		 {% for choice in ballot.choice_set.all %}
 
 		 	<li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }} </li>
-		 {% endfor %}
+		 	<!-- Display/Hide Counterparty Address -->
+		<br />
+		<small for="choice{{ forloop.counter }}" > Candidate Address: {{ choice.choice_address }}</small>
+		<br />
+		<small for="choice{{ forloop.counter }}" > Candidate Tally: {% getBallotCandidateBalance choice.choice_address %}</small>
+		<!-- Display/Hide Counterparty Address -->
+		<br />
+
+		<br />
+
+		  {% endfor %}
 	</ul>
 
 	<a href="{% url 'polls:detail' ballot.id %} ">Vote again?</a>

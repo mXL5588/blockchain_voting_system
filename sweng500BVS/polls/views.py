@@ -1,14 +1,37 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.urls import reverse
 from django.template import loader
 from django.shortcuts import render
 from .models import Ballot, Choice
 from django.views import generic
-
+from .counterparty import *
+from datetime import datetime 
+from django.utils import timezone
 
 
 # Create your views here.
+#def hour(request):
+	#now = datetime.now()
+	#testlist = ['Bern','Bob','Eufronio','Epifanio','El pug']
+	#return render(request, 'polls/index.html', {"list": list})
+	#return render_to_response({"testlist": testlist})
+
+# Create your views here.
+
+
+
+def post_list(request):
+    posts = 'Bern'
+    return render(request, 'polls/index.html',{'tests': posts})
+
+def current_datetime(request):
+	html = "It is now test." 
+	return HttpResponse(html)
+
+def lower(value): # Only one argument.
+    """Converts a string into all lowercase"""
+    return value.lower()
 
 def vote(request, ballot_id):
 	#return HttpResponse("You're voting on ballot %s" % ballot_id)
@@ -39,6 +62,8 @@ class IndexView(generic.ListView):
 	def get_queryset(self):
 		"""Return the last five published ballot"""
 		return Ballot.objects.order_by('-pub_date')[:5]
+
+
 
 class DetailView(generic.DetailView):
 	model = Ballot
