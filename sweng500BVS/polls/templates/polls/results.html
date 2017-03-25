@@ -26,11 +26,7 @@
 
 
 		{% buttons %}
-
-		 	<button class="btn btn-primary" onClick="javascript:history.go(-1);">
-		      {% bootstrap_icon "home" %}
-		    	
-		    </button>
+			<a href="{% url 'polls:index' %}" type="btn" class="btn btn-primary">{% bootstrap_icon "home" %}</a>
   		{% endbuttons %}
 		<h1> {{ ballot.ballot_text }}</h1>
 		<small>Vote Tally</small>
