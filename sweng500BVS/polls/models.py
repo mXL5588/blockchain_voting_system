@@ -7,13 +7,23 @@ from django.utils import timezone
 import datetime
 # Create your models here.
 
+BALLOT_ADDRESSES = (
+	('ballot1','mh4w5JnU662ddHywJU3X1wYL6mufjd6Egz'),
+	)
+
+VOTER_ADDRESSES = (
+	('voter1','mpMtRQUB9XeyXiJevZL6TuLxbvNJJys74j'),
+	('voter2','miyLyx2bp4buCnRV4y93RKNH3Lp1s89zQa'),
+	('voter3','n39HtcDLnXrxNH4yEra8K7QfVKLN2CJ3Sk'),
+	)
 
 class Ballot(models.Model):
-	ballot_text = models.CharField(max_length=200)
+	ballot_name = models.CharField(max_length=200)
+	ballot_address = models.CharField(max_length=36, choices= BALLOT_ADDRESSES)
 	pub_date = models.DateTimeField('date published')
 	end_date = models.DateTimeField('end date')
 	def __str__(self):
-		return self.ballot_text
+		return self.ballot_name
 
 	def was_published_recently(self):
 		now = timezone.now()
@@ -24,12 +34,12 @@ class Ballot(models.Model):
 
 class Choice(models.Model):
 	ballot = models.ForeignKey(Ballot, on_delete=models.CASCADE)
-	choice_text = models.CharField(max_length=200)
-	choice_address = models.CharField(max_length=36)
-	votes = models.IntegerField(default=0)
+	voter_text = models.CharField(max_length=200)
+	voter_address = models.CharField(max_length=36, choices= VOTER_ADDRESSES)
+	#votes = models.IntegerField(default=0)
 	
 	def __str__(self):
-		return self.choice_text
+		return self.voter_text
 
 
 
