@@ -1,0 +1,45 @@
+sweng@swengdevEnv:~/Projects/blockchain_voting_system/sweng500BVS$ vi ~/.bashrc 
+sweng@swengdevEnv:~/Projects/blockchain_voting_system/sweng500BVS$ WORKON pyXCP
+WORKON: command not found
+sweng@swengdevEnv:~/Projects/blockchain_voting_system/sweng500BVS$ workon pyXCP
+ERROR: Environment 'pyXCP' does not exist. Create it with 'mkvirtualenv pyXCP'.
+sweng@swengdevEnv:~/Projects/blockchain_voting_system/sweng500BVS$ mkvirtualenv pyXCP
+Using base prefix '/usr'
+New python executable in /home/sweng/.virtualenvs/pyXCP/bin/python3
+Also creating executable in /home/sweng/.virtualenvs/pyXCP/bin/python
+Installing setuptools, pip, wheel...done.
+virtualenvwrapper.user_scripts creating /home/sweng/.virtualenvs/pyXCP/bin/predeactivate
+virtualenvwrapper.user_scripts creating /home/sweng/.virtualenvs/pyXCP/bin/postdeactivate
+virtualenvwrapper.user_scripts creating /home/sweng/.virtualenvs/pyXCP/bin/preactivate
+virtualenvwrapper.user_scripts creating /home/sweng/.virtualenvs/pyXCP/bin/postactivate
+virtualenvwrapper.user_scripts creating /home/sweng/.virtualenvs/pyXCP/bin/get_env_details
+(pyXCP) sweng@swengdevEnv:~/Projects/blockchain_voting_system/sweng500BVS$ workon pyXCP
+(pyXCP) sweng@swengdevEnv:~/Projects/blockchain_voting_system/sweng500BVS$ vote
+(pyXCP) sweng@swengdevEnv:~/Projects/blockchain_voting_system$ cd sweng500BVS/
+(pyXCP) sweng@swengdevEnv:~/Projects/blockchain_voting_system/sweng500BVS$ ls
+db.sqlite3  manage.py  polls  sweng500BVS  templates
+(pyXCP) sweng@swengdevEnv:~/Projects/blockchain_voting_system/sweng500BVS$ python manage.py migrate
+Traceback (most recent call last):
+  File "manage.py", line 8, in <module>
+    from django.core.management import execute_from_command_line
+ImportError: No module named 'django'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "manage.py", line 14, in <module>
+    import django
+ImportError: No module named 'django'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "manage.py", line 17, in <module>
+    "Couldn't import Django. Are you sure it's installed and "
+ImportError: Couldn't import Django. Are you sure it's installed and available on your PYTHONPATH environment variable? Did you forget to activate a virtual environment?
+(pyXCP) sweng@swengdevEnv:~/Projects/blockchain_voting_system/sweng500BVS$ pip install Django
+Collecting Django
+  Using cached Django-1.10.6-py2.py3-none-any.whl
+Installing collected packages: Django
+Successfully installed Django-1.10.6
+(pyXCP) sweng@swengdevEnv:~/Projects/blockchain_voting_system/sweng500BVS$ python manage.py migrate

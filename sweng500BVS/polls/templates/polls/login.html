@@ -1,0 +1,66 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<div class="container-fluid">
+  
+
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.css' %}">
+		<link rel="script" href="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}">
+		<link rel="stylesheet" href="{% static 'css/polls.css' %}">
+
+		{# Load the tag library #}
+		{% load bootstrap3 %}
+
+		{# Load CSS and JavaScript #}
+		{% bootstrap_css %}
+		{% bootstrap_javascript %}
+
+		{# Display django.contrib.messages as Bootstrap alerts #}
+		{% bootstrap_messages %}
+	</head>
+
+  {% buttons %}
+
+ 	<button type="submit" class="btn btn-primary"><a href="{% url 'polls:index'  %}"></a>
+      {% bootstrap_icon "home" %}
+    </button>
+    <button type="submit" class="btn btn-primary">
+      {% bootstrap_icon "info-sign" %} 
+    </button>
+    <button type="submit" class="btn btn-primary">
+      {% bootstrap_icon "user" %} Admin Login
+    </button>
+     <button type="submit" class="btn btn-primary">
+      {% bootstrap_icon "user" %} User Login
+    </button>
+
+
+  {% endbuttons %}
+
+
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+  		<h1> Voter Login </h1>
+		<small>Select a Voter:</small>
+		<form method="POST" action="/search">
+		{% csrf_token %}
+		<input type="text" name="textfield">
+
+		<button type="submit">Upload text</button>
+		</form>>
+  </div>
+ <div class="col-md-4"></div> 
+</div>
+
+
+
+
+</html>
