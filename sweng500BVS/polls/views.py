@@ -3,7 +3,8 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.urls import reverse
 from django.template import loader
 from django.shortcuts import render
-from .models import Ballot, Choice
+from .models import Ballot, VoterChoice, ContestantChoice, VotersList
+from .forms import VotersListForm
 from django.views import generic
 from .counterparty import *
 from datetime import datetime 
@@ -21,13 +22,13 @@ from django.utils import timezone
 
 
 
-def post_list(request):
-    posts = 'Bern'
-    return render(request, 'polls/index.html',{'tests': posts})
+# def post_list(request):
+#     posts = 'Bern'
+#     return render(request, 'polls/index.html',{'tests': posts})
 
-def current_datetime(request):
-	html = "It is now test." 
-	return HttpResponse(html)
+# def current_datetime(request):
+# 	html = "It is now test." 
+# 	return HttpResponse(html)
 
 def lower(value): # Only one argument.
     """Converts a string into all lowercase"""
@@ -38,9 +39,9 @@ def vote(request, ballot_id):
 	ballot = get_object_or_404(Ballot, pk=ballot_id)
 
 	try:
-		selected_choice = ballot.choice_set.get(pk=request.POST['choice'])
+		selected_choice = ballot.contestants.get(pk=request.POST['choice'])
 
-	except (KeyError, Choice.DoesNotExist):
+	except (KeyError, ContestantChoice.DoesNotExist):
 		# Redisplay the ballot voting form
 		return render(request, 'polls/detail.html', 
 			{ 'ballot': ballot, 'error_message': "You didn't select a choice.",})
@@ -63,6 +64,21 @@ class IndexView(generic.ListView):
 		"""Return the last five published ballot"""
 		return Ballot.objects.order_by('-pub_date')[:5]
 
+
+def LoginView(request):
+	return render(request, 'polls/login.html')
+	# template_name = 'polls/login.html'
+	# model = VotersList
+	# form_class = VotersListForm
+
+def search(request):
+	if request.method == 'POST':
+		search_id = request.POST.get('polls:textfield', None)
+		print(search_id)
+		html = ("<H1>%s</H!>",search_id)
+		return render(request, 'polls/login.html')
+	else:
+		return render(request, 'polls/login.html')
 
 
 class DetailView(generic.DetailView):

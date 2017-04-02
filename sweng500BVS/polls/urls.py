@@ -9,6 +9,10 @@ urlpatterns = [
     #url(r'^$', views.index, name='index'),
     url(r'^$', views.IndexView.as_view(), name='index'),
 
+
+    url(r'^login/$', views.LoginView),
+    url(r'^polls/search/$', views.search),
+
     # ex: /polls/5/
     # the 'name' value as called by the {$ url $} template tag
     #url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),

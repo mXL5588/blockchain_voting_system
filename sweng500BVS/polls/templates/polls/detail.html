@@ -1,6 +1,4 @@
 {% load staticfiles %}
-{% load poll_extras %}
-
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -40,7 +38,7 @@
 		    </button>
   		{% endbuttons %}
 
-		<h1>{{ ballot.ballot_text }}</h1>
+		<h1>{{ ballot.ballot_name }}</h1>
 		<small>Select a ballot candidate:</small>
 
 
@@ -51,12 +49,12 @@
 	<form action="{% url 'polls:vote' ballot.id %}" method="post">
 
 	{% csrf_token %}
-	{% for choice in ballot.choice_set.all %}
+	{% for choice in ballot.contestants.all %}
 		<input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{ choice.id }}" />
-		<label for="choice{{ forloop.counter }}" > {{ choice.choice_text }}</label>
+		<label for="choice{{ forloop.counter }}" > {{ choice.contestant_name }}</label>
 		<!-- Display/Hide Counterparty Address -->
 		<br />
-		<small for="choice{{ forloop.counter }}" > Candidate Address: {{ choice.choice_address }}</small>
+		<small for="choice{{ forloop.counter }}" > Bitcoin Address: {{ choice.contestant_address }}</small>
 		<br />
 
 		{% endfor %}
@@ -65,7 +63,6 @@
 	<!-- Single button -->
 		<div class="btn-group">
 		  <button type="button submit" value="Vote" class="btn btn-danger">Vote</button>
-		  <button type="button submit" value="Vote" class="btn btn-danger">Test Send Asset</button>
 		</div>
 
 		<br />

@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load poll_extras %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,15 +22,6 @@
 		{% bootstrap_messages %}
 	</head>
 	<div class="page-header">
-
-
-		{% buttons %}
-
-		 	<button class="btn btn-primary" onClick="javascript:history.go(-1);">
-		      {% bootstrap_icon "home" %}
-		    	
-		    </button>
-  		{% endbuttons %}
 		<h1> {{ ballot.ballot_text }}</h1>
 		<small>Vote Tally</small>
 	</div>
@@ -39,17 +29,7 @@
 		 {% for choice in ballot.choice_set.all %}
 
 		 	<li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }} </li>
-		 	<!-- Display/Hide Counterparty Address -->
-		<br />
-		<small for="choice{{ forloop.counter }}" > Candidate Address: {{ choice.choice_address }}</small>
-		<br />
-		<small for="choice{{ forloop.counter }}" > Candidate Tally: {% getBallotCandidateBalance choice.choice_address %}</small>
-		<!-- Display/Hide Counterparty Address -->
-		<br />
-
-		<br />
-
-		  {% endfor %}
+		 {% endfor %}
 	</ul>
 
 	<a href="{% url 'polls:detail' ballot.id %} ">Vote again?</a>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Ballot, Choice
+from .models import Ballot, VoterChoice, ContestantChoice
 import json
 import requests
 from requests.auth import HTTPBasicAuth
@@ -27,12 +27,82 @@ serverURL = 'http://' + rpcUser + ':' + rpcPassword + '@localhost:' + str(rpcPor
 
 headers = {'content-type': 'application/json'}
 
+def getBalance(address,asset):
+  result = "None"
+  payload = {
+     "method": "get_balances",
+     "params": {
+                "filters": [{"field": "address", "op": "==", "value": address}],
+                "filterop": "or"
+               },
+     "jsonrpc": "2.0",
+     "id": 0
+    }
+  node=json.dumps(payload)
+  response = requests.post(url, data=node, headers=headers, auth=auth)
+  print("Response for balance check: ", response.text)
+  jsonObj = json.loads(response.text)
+  for results in jsonObj['result']:
+    if results['asset'] == asset:
+      result = results['asset'], ":" , results['quantity']
+  return result
 
+def createIssuance(address, assetName):
+  # Issuance (indivisible)
+  payload = {
+     "method": "create_issuance",
+     "params": {
+                "source": address,
+                "asset": assetName,
+                "quantity": 10,
+                "divisible": False,
+                "description": "This is issuance of assets for ballot",
+                "transfer_destination": ""
+               },
+     "jsonrpc": "2.0",
+     "id": 0
+    }
+  #response = requests.post(serverURL, headers=headers, data=json.dumps(payload))
+  return requests.post(url, data=json.dumps(payload), headers=header, auth=auth)
 
+def createSend(srcAddress, destAddress, assetName):
+  # Send 1 XCP (specified in satoshis) from one address to another.
+  payload = {
+             "method": "create_send",
+             "params": {
+                        'source': srcAddress, 
+                        'destination': destAddress,
+                        'asset': assetName,
+                        'quantity': 1
+                       },
+             "jsonrpc": "2.0",
+             "id": 0
+            }
 
+  return requests.post(url, data=json.dumps(payload), headers=headers, auth=auth)
 
-class ChoiceInline(admin.TabularInline):
-    model = Choice
+def signRawTransaction(result):
+  payload = {
+    "method": 'signrawtransaction',
+    "params": [result],
+    "jsonrpc": "2.0"
+    }
+  return requests.post(serverURL, headers=headers, data=json.dumps(payload))
+
+def sendRawTransaction(result):
+  payload = {
+    "method": 'sendrawtransaction',
+    "params": [result],
+    "jsonrpc": "2.0"
+    }
+  return requests.post(serverURL, headers=headers, data=json.dumps(payload))
+
+class VoterChoiceInline(admin.TabularInline):
+    model = VoterChoice
+    extra = 3
+
+class ContestantChoiceInline(admin.TabularInline):
+    model = ContestantChoice
     extra = 3
 
 
@@ -44,7 +114,8 @@ class BallotAdmin(admin.ModelAdmin):
         ('Date information', {'fields': ['pub_date'], 'classes': ['expand']}),
         ('Date information', {'fields': ['end_date'], 'classes': ['expand']}),
     ]
-    inlines = [ChoiceInline]
+    #inlines = []
+    inlines = [ContestantChoiceInline,VoterChoiceInline]
     
     # include a list filter
     list_filter = ['pub_date']
@@ -56,105 +127,71 @@ class BallotAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         print("********************************************************************************")
-        ballotAddress = obj.ballot_address
-        # Issuance (indivisible)
-        payload = {
-                   "method": "create_issuance",
-                   "params": {
-                              "source": obj.ballot_address,
-                              "asset": obj.ballot_name,
-                              "quantity": 10,
-                              "divisible": False,
-                              "description": "This is issuance of assets for ballot",
-                              "transfer_destination": ""
-                             },
-                   "jsonrpc": "2.0",
-                   "id": 0
-                  }
-        #response = requests.post(serverURL, headers=headers, data=json.dumps(payload))
-        response = requests.post(url, data=json.dumps(payload), headers=header, auth=auth)
-        jsonObj = json.loads(response.text)
-        if 'error' not in jsonObj:
-          print("Response 1: ", jsonObj)
-          payload = {
-            "method": 'signrawtransaction',
-            "params": [jsonObj['result']],
-            "jsonrpc": "2.0"
-            }
-          response = requests.post(serverURL, headers=headers, data=json.dumps(payload))
-          jsonObj = json.loads(response.text)
-          if 'error' in jsonObj:
-            print("Response 2: ", jsonObj)
-            payload = {
-              "method": 'sendrawtransaction',
-              "params": [jsonObj['result']['hex']],
-              "jsonrpc": "2.0"
-              }
-            response = requests.post(serverURL, headers=headers, data=json.dumps(payload))
-            jsonObj = json.loads(response.text)
-            if 'error' in jsonObj:
-              print("Response 3: ", jsonObj)
-              super().save_model(request, obj, form, change)
-            else:
-              print("Error-3 Response: ", jsonObj)
-          else:
-            print("Error-2 Response: ", jsonObj)
-        else:
-          print("Error-1 Response: ", jsonObj)
-        
-
-        
-    def save_formset(self, request, form, formset, change):
-      print("___________________________________________________________________________________")
-      # Create instances. Each instance will be a "row" (obj) of the inline model
-      instances = formset.save(commit=False)
-      # Iterate over the instances (objects of the Inline Model)
-      for instance in instances:
-          # Get the object's attribute (Model field)
-          print("Voter Address: ", instance.voter_address)
-          print("Voter Text: ", instance.voter_text)
-
-          # Send 1 XCP (specified in satoshis) from one address to another.
-          payload = {
-                     "method": "create_send",
-                     "params": {
-                                'source': form.instance.ballot_address, 
-                                'destination': instance.voter_address,
-                                'asset': "ajsbdjadshhjbb",
-                                'quantity': 1
-                               },
-                     "jsonrpc": "2.0",
-                     "id": 0
-                    }
-
-          response = requests.post(url, data=json.dumps(payload), headers=headers, auth=auth)
+        print("Issuance: ", obj.ballot_address)
+        if obj.ballot_issued == False:
+          response = createIssuance(obj.ballot_address,obj.ballot_name)
           jsonObj = json.loads(response.text)
           if 'error' not in jsonObj:
             print("Response 1: ", jsonObj)
-            payload = {
-              "method": 'signrawtransaction',
-              "params": [jsonObj['result']],
-              "jsonrpc": "2.0"
-              }
-            response = requests.post(serverURL, headers=headers, data=json.dumps(payload))
+            response = signRawTransaction(jsonObj['result'])
             jsonObj = json.loads(response.text)
             if 'error' in jsonObj:
               print("Response 2: ", jsonObj)
-              payload = {
-                "method": 'sendrawtransaction',
-                "params": [jsonObj['result']['hex']],
-                "jsonrpc": "2.0"
-                }
-              response = requests.post(serverURL, headers=headers, data=json.dumps(payload))
+              response = sendRawTransaction(jsonObj['result']['hex'])
               jsonObj = json.loads(response.text)
               if 'error' in jsonObj:
                 print("Response 3: ", jsonObj)
+                obj.ballot_issued = True
               else:
                 print("Error-3 Response: ", jsonObj)
             else:
               print("Error-2 Response: ", jsonObj)
           else:
             print("Error-1 Response: ", jsonObj)
+        super().save_model(request, obj, form, change)
+    
+
+
+
+
+        
+    def save_formset(self, request, form, formset, change):
+      print("___________________________________________________________________________________")
+      # Create instances. Each instance will be a "row" (obj) of the inline model
+      instances = formset.save(commit=False)
+      if form.instance.isItVoter == True:
+        # Iterate over the instances (objects of the Inline Model)
+        for instance in instances:
+            # Get the object's attribute (Model field)
+            print("Voter Address: ", instance.voter_address)
+            print("Voter Text: ", instance.voter_name)
+
+            response = createSend(form.instance.ballot_address, instance.voter_address, form.instance.ballot_name)
+            jsonObj = json.loads(response.text)
+            if 'error' not in jsonObj:
+              print("Response 1: ", jsonObj)
+              response = signRawTransaction(jsonObj['result'])
+              jsonObj = json.loads(response.text)
+              if 'error' in jsonObj:
+                print("Response 2: ", jsonObj)
+                response = sendRawTransaction(jsonObj['result']['hex'])
+                jsonObj = json.loads(response.text)
+                if 'error' in jsonObj:
+                  print("Response 3: ", jsonObj)
+
+                  print("Balance for ", instance.voter_name, ":", getBalance(instance.voter_address, form.instance.ballot_name))
+                else:
+                  print("Error-3 Response: ", jsonObj)
+              else:
+                print("Error-2 Response: ", jsonObj)
+            else:
+              print("Error-1 Response: ", jsonObj)
+        form.instance.isItVoter = False
+      else:
+        form.instance.isItVoter = True
+
+
+      print("Balance for ", form.instance.ballot_name, ":", getBalance(form.instance.ballot_address, form.instance.ballot_name))
       super().save_formset(request,form, formset, change)
 
 admin.site.register(Ballot, BallotAdmin)
