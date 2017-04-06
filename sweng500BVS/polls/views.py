@@ -9,7 +9,7 @@ from .counterparty import *
 from datetime import datetime 
 from django.utils import timezone
 from django.views.generic import FormView  
-from .counterparty import createIssuance, createSend, signRawTransaction, sendRawTransaction
+from .counterparty import createIssuance, createSend, signRawTransaction, sendRawTransaction, getBalance
 
 
 # Create your views here.
