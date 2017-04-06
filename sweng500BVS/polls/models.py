@@ -59,4 +59,7 @@ class ContestantChoice(models.Model):
 
 
 class VotersList(models.Model):
-  voters = models.CharField(max_length=36, choices=VOTER_ADDRESSES, default='Voter1Address')
+	#ballot = models.ForeignKey(Ballot, on_delete=models.CASCADE,related_name="listvoters", related_query_name="listvoters")
+	voters = models.CharField(max_length=36, choices=VOTER_ADDRESSES)
+	def __str__(self):
+		return self.voters

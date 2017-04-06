@@ -10,8 +10,8 @@ urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
 
 
-    url(r'^login/$', views.LoginView),
-    url(r'^polls/search/$', views.search),
+    url(r'^login/$', views.LoginView.as_view(), name='login'),
+    # url(r'^login/$', views.LoginView, name='login'),
 
     # ex: /polls/5/
     # the 'name' value as called by the {$ url $} template tag

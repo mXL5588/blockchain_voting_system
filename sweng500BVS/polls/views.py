@@ -9,6 +9,7 @@ from django.views import generic
 from .counterparty import *
 from datetime import datetime 
 from django.utils import timezone
+from django.views.generic import FormView  
 
 
 # Create your views here.
@@ -61,24 +62,38 @@ class IndexView(generic.ListView):
 	context_object_name = 'latest_ballot_list'
 
 	def get_queryset(self):
+		#voterslist = .objects.all()
 		"""Return the last five published ballot"""
-		return Ballot.objects.order_by('-pub_date')[:5]
+		return Ballot.objects.order_by('-pub_date')
 
 
-def LoginView(request):
-	return render(request, 'polls/login.html')
-	# template_name = 'polls/login.html'
-	# model = VotersList
-	# form_class = VotersListForm
+class LoginView(generic.ListView):
+	template_name = 'polls/login.html'
+	context_object_name = 'test_ballot_list'
 
-def search(request):
-	if request.method == 'POST':
-		search_id = request.POST.get('polls:textfield', None)
-		print(search_id)
-		html = ("<H1>%s</H!>",search_id)
-		return render(request, 'polls/login.html')
-	else:
-		return render(request, 'polls/login.html')
+	def get_queryset(self):
+		#voterslist = .objects.all()
+		"""Return the last five published ballot"""
+		return VotersList.objects.all()
+
+
+# class LoginView(FormView):
+# 	template_name = 'polls/login.html'
+# 	form_class = VotersListForm
+
+# 	def form_valid(self, form):
+# 		print("Voter Address: ", VotersListForm.voters)
+# 		return HttpResponseRedirect(reverse('polls:index'))
+# 	template_name = 'polls/login.html'
+# 	model = VotersList
+# 	form_class = VotersListForm
+
+# def LoginView(request):
+# 	form = VotersListForm(request.POST or None)
+# 	if form.is_valid():
+# 		print(form.cleaned_data.get('voters'))
+# 	print(request.session.get('voters'))
+# 	return render(request, 'polls/login.html')
 
 
 class DetailView(generic.DetailView):

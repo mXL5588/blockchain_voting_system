@@ -28,18 +28,15 @@
 
   {% buttons %}
 
- 	<button type="submit" class="btn btn-primary"><a href="{% url 'polls:index'  %}"></a>
-      {% bootstrap_icon "home" %}
-    </button>
+ 	<a href="{% url 'polls:index'  %}">
+      <button type="submit" class="btn btn-primary">{% bootstrap_icon "home" %}</button>
+    </a>
     <button type="submit" class="btn btn-primary">
       {% bootstrap_icon "info-sign" %} 
     </button>
-    <button type="submit" class="btn btn-primary">
-      {% bootstrap_icon "user" %} Admin Login
-    </button>
-     <button type="submit" class="btn btn-primary">
-      {% bootstrap_icon "user" %} User Login
-    </button>
+	<a href="{% url 'polls:login'  %}">
+		<button type="submit" class="btn btn-primary">{% bootstrap_icon "user" %} User Login</button>
+	</a>
 
 
   {% endbuttons %}
