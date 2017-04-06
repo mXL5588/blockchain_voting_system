@@ -45,6 +45,37 @@
   <div class="col-md-4"></div>
   <div class="col-md-4">
   		<h1> Voters List </h1>
+		<form action="{% url 'polls:loginsubmit' %}" method="post">
+		{% csrf_token %}
+			{% for v in voters_list %}
+				<option value="{{ v.id }}">{{ v.votersList_name }}</option>
+		        {% for choice in v.listvoters.all %}
+					<input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{ choice.id }}" />
+					<label for="choice{{ forloop.counter }}" > {{ choice.voter_name }}</label>
+					<br />
+				{% endfor %}
+		    {% endfor %}
+
+			<div class="btn-group">
+			  <button type="button submit" value="Save" class="btn btn-danger">Save</button>
+			</div>
+
+			<br />
+			<br />
+		</form>
+  </div>
+ <div class="col-md-4"></div> 
+</div>
+
+
+</html>
+
+
+</html>
+
+
+
+
 		<!-- <form action="polls/login" method="post"> -->
 <!-- 		<form action="{% url 'polls:login' %}" method="post">
 
@@ -71,27 +102,18 @@
 		<option value="voter" >Voter2</option>
 		</select></td></tr> -->
 
-		<!-- <form action="{% url 'polls:login' %}"> -->
-		    <!-- <select name="voters"> -->
+<!-- 		<form action="{% url 'polls:login' %}"method="post">
+		    <select name="voters">
 		    {% for v in test_ballot_list %}
 		        <option value="{{ v.id }}">{{ v.voters }}</option>
 		    {% endfor %}
-<!-- 		    {% for v in VotersList %}
+		    {% for v in VotersList %}
 			<li>{{ v.voters }}</li>
-			{% endfor %} -->
-<!-- 		    </select> -->
-		<!--     <button>Show deals</button>
-		</form> -->
+			{% endfor %}
+		    </select>
+		    <button>Submit</button>
+		</form>
 
 		<a href="{% url 'polls:index'  %}">
       		<button type="submit" class="btn btn-primary">{% bootstrap_icon "home" %} Save & Return </button>
-    	</a>
-  </div>
- <div class="col-md-4"></div> 
-</div>
-
-
-</html>
-
-
-</html>
+    	</a> -->

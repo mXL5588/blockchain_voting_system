@@ -3,13 +3,13 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.urls import reverse
 from django.template import loader
 from django.shortcuts import render
-from .models import Ballot, VoterChoice, ContestantChoice, VotersList
-from .forms import VotersListForm
+from .models import Ballot, VoterChoice, ContestantChoice, VotersList, VotersListChoice
 from django.views import generic
 from .counterparty import *
 from datetime import datetime 
 from django.utils import timezone
 from django.views.generic import FormView  
+from .counterparty import createIssuance, createSend, signRawTransaction, sendRawTransaction
 
 
 # Create your views here.
@@ -47,6 +47,26 @@ def vote(request, ballot_id):
 		return render(request, 'polls/detail.html', 
 			{ 'ballot': ballot, 'error_message': "You didn't select a choice.",})
 	else:
+		voterList = VotersList.objects.all()[0]
+		response = createSend(voterList.currentVoterChoice, selected_choice.contestant_address, ballot.ballot_name)
+		jsonObj = json.loads(response.text)
+		if 'error' not in jsonObj:
+			print("Response 1: ", jsonObj)
+			response = signRawTransaction(jsonObj['result'])
+			jsonObj = json.loads(response.text)
+			if 'error' in jsonObj:
+				print("Response 2: ", jsonObj)
+				response = sendRawTransaction(jsonObj['result']['hex'])
+				jsonObj = json.loads(response.text)
+				if 'error' in jsonObj:
+					print("Response 3: ", jsonObj)
+					print("Balance for ", selected_choice.contestant_name, ":", getBalance(selected_choice.contestant_address, ballot.ballot_name))
+				else:
+					print("Error-3 Response: ", jsonObj)
+			else:
+				print("Error-2 Response: ", jsonObj)
+		else:
+			print("Error-1 Response: ", jsonObj)
 		selected_choice.votes += 1
 		selected_choice.save()
 
@@ -57,6 +77,25 @@ def vote(request, ballot_id):
 		return HttpResponseRedirect(reverse('polls:results', args=(ballot.id,)))
 
 
+
+def LoginSubmit(request):
+	voterList = VotersList.objects.all()[0]
+	try:
+		selected_choice = voterList.listvoters.get(pk=request.POST['choice'])
+
+	except (KeyError, VotersListChoice.DoesNotExist):
+		# Redisplay the ballot voting form
+		return render(request, 'polls/login.html')
+	else:
+		voterList.currentVoterChoice = selected_choice.voter_address;
+		voterList.save()
+		# Always return an HTTPResponseRedirect after successfully dealing 
+		# with POST data. This prevents data from being posted twice if a
+		# user hits the back button.
+
+		return HttpResponseRedirect(reverse('polls:index'))
+
+
 class IndexView(generic.ListView):
 	template_name = 'polls/index.html'
 	context_object_name = 'latest_ballot_list'
@@ -64,16 +103,22 @@ class IndexView(generic.ListView):
 	def get_queryset(self):
 		#voterslist = .objects.all()
 		"""Return the last five published ballot"""
-		return Ballot.objects.order_by('-pub_date')
+		print("*********************Ballots returned reached********************************")
+		voterList = VotersList.objects.all()[0]
+		list = getAssetList(voterList.currentVoterChoice)
+		ballotList = []
+		for ballot in Ballot.objects.all():
+			for name in list:
+				if name == ballot.ballot_name:
+					ballotList.append(ballot)
 
+		return ballotList
 
 class LoginView(generic.ListView):
 	template_name = 'polls/login.html'
-	context_object_name = 'test_ballot_list'
+	context_object_name = 'voters_list'
 
 	def get_queryset(self):
-		#voterslist = .objects.all()
-		"""Return the last five published ballot"""
 		return VotersList.objects.all()
 
 

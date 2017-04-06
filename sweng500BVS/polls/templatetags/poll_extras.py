@@ -45,7 +45,7 @@ def getCounterpartyInfo():
 	return (response.text)
 
 @register.simple_tag
-def getBallotCandidateBalance(candidateAddress):
+def getBallotCandidateBalance(candidateAddress, asset):
 # Fetch all balances for all assets for both of two addresses, using keyword-based arguments
 	url = "http://localhost:14000/api/"
 	headers = {'content-type': 'application/json'}
@@ -61,7 +61,11 @@ def getBallotCandidateBalance(candidateAddress):
 	}
 	node=json.dumps(payload)
 	response = requests.post(url, data=node, headers=headers, auth=auth)
-	return (response.text)
+	jsonObj = json.loads(response.text)
+	for results in jsonObj['result']:
+		if results['asset'] == asset:
+			return results['quantity']
+	return "No assets found"
 
 @register.simple_tag
 def castBallot(strSourceAddress, strCandidateAddress, strAssetName):

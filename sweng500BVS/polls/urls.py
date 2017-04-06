@@ -11,7 +11,8 @@ urlpatterns = [
 
 
     url(r'^login/$', views.LoginView.as_view(), name='login'),
-    # url(r'^login/$', views.LoginView, name='login'),
+    
+    url(r'^loginsubmit/$', views.LoginSubmit, name='loginsubmit'),
 
     # ex: /polls/5/
     # the 'name' value as called by the {$ url $} template tag

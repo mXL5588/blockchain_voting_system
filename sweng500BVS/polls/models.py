@@ -18,8 +18,14 @@ CONTESTANT_ADDRESSES = (
 
 VOTER_ADDRESSES = (
 	('mpMtRQUB9XeyXiJevZL6TuLxbvNJJys74j','Voter1Address'),
-	('miyLyx2bp4buCnRV4y93RKNH3Lp1s89zQa','voter2Address'),
-	('n39HtcDLnXrxNH4yEra8K7QfVKLN2CJ3Sk','voter3Address'),
+	('miyLyx2bp4buCnRV4y93RKNH3Lp1s89zQa','Voter2Address'),
+	('n39HtcDLnXrxNH4yEra8K7QfVKLN2CJ3Sk','Voter3Address'),
+	)
+
+VOTER_NAMES = (
+	('Voter1','Voter1'),
+	('Voter2','Voter2'),
+	('Voter3','Voter3'),
 	)
 
 class Ballot(models.Model):
@@ -57,9 +63,16 @@ class ContestantChoice(models.Model):
 	def __str__(self):
 		return self.contestant_name
 
-
 class VotersList(models.Model):
-	#ballot = models.ForeignKey(Ballot, on_delete=models.CASCADE,related_name="listvoters", related_query_name="listvoters")
-	voters = models.CharField(max_length=36, choices=VOTER_ADDRESSES)
+	votersList_name = models.CharField(max_length=200)
+	currentVoterChoice = models.CharField(max_length=36)
 	def __str__(self):
-		return self.voters
+		return self.votersList_name
+
+class VotersListChoice(models.Model):
+	voterlist = models.ForeignKey(VotersList, on_delete=models.CASCADE,related_name="listvoters", related_query_name="listvoters")
+
+	voter_name = models.CharField(max_length=200, choices=VOTER_NAMES)
+	voter_address = models.CharField(max_length=36, choices=VOTER_ADDRESSES)
+	def __str__(self):
+		return self.voter_name
