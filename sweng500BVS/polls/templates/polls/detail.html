@@ -33,11 +33,8 @@
 
 
 		{% buttons %}
-
-		 	<button class="btn btn-primary"><a href="/"></a>
-		      {% bootstrap_icon "home" %}
-		    	
-		    </button>
+			<a href="{% url 'polls:index' %}" type="btn" class="btn btn-primary">
+			{% bootstrap_icon "home" %}</a>
   		{% endbuttons %}
 
 		<h1>{{ ballot.ballot_text }}</h1>
@@ -74,7 +71,7 @@
 
 		<div class="btn-group btn-group-justified" role="group" aria-label="...">
 		  <div class="btn-group" role="group">
-		    <button type="button" class="btn btn-default" ><a href="{% url 'polls:index' %}"></a>Go Back</button>
+		 	 <a href="{% url 'polls:index' %}" type="btn" class="btn btn-default">Go Back</a>
 		  </div>
 		  <div class="btn-group" role="group">
 		    <button type="button" class="btn btn-default">Previous Ballot</button>

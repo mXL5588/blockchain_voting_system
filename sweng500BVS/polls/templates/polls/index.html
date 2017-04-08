@@ -29,18 +29,18 @@
 	<div class="page-header">
 	  {% buttons %}
 
-	 	<button type="submit" class="btn btn-primary"><a href="{% url 'polls:index'  %}"></a>
-	      {% bootstrap_icon "home" %}
-	    </button>
-	    <button type="submit" class="btn btn-primary">
-	      {% bootstrap_icon "info-sign" %} 
-	    </button>
-	    <button type="submit" class="btn btn-primary">
-	      {% bootstrap_icon "user" %} Admin Login
-	    </button>
-	     <button type="submit" class="btn btn-primary">
-	      {% bootstrap_icon "user" %} User Login
-	    </button>
+	 	<a href="{% url 'polls:index' %}" type="btn" class="btn btn-primary">
+	 	{% bootstrap_icon "home" %}</a>
+ 
+    	<button type="submit" class="btn btn-primary">
+      	{% bootstrap_icon "info-sign" %} 
+    	</button>
+
+		<a href="{% url 'admin:index' %}" type="btn" class="btn btn-primary">{% bootstrap_icon "user" %} Admin Login</a>
+
+    	<button type="submit" class="btn btn-primary">
+      	{% bootstrap_icon "user" %} User Login
+		</button>
 
 
 	  {% endbuttons %}
