@@ -1,10 +1,6 @@
 {% load staticfiles %}
-
 <!DOCTYPE html>
 <html lang="en">
-<div class="container-fluid">
-  
-
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -14,7 +10,6 @@
 		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.css' %}">
 		<link rel="script" href="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}">
 		<link rel="stylesheet" href="{% static 'css/polls.css' %}">
-
 		{# Load the tag library #}
 		{% load bootstrap3 %}
 
@@ -24,96 +19,58 @@
 
 		{# Display django.contrib.messages as Bootstrap alerts #}
 		{% bootstrap_messages %}
+
+		
+
 	</head>
-  {% buttons %}
+	<body>
 
- 	<a href="{% url 'polls:index'  %}">
-      <button type="submit" class="btn btn-primary">{% bootstrap_icon "home" %}</button>
-    </a>
-    <button type="submit" class="btn btn-primary">
-      {% bootstrap_icon "info-sign" %} 
-    </button>
-	<a href="{% url 'polls:login'  %}">
-		<button type="submit" class="btn btn-primary">{% bootstrap_icon "user" %} User Login</button>
-	</a>
+		
+
+	<div class="page-header">
+
+
+	{% buttons %}
+
+	 	<a href="{% url 'polls:index'  %}">
+			<button type="submit" class="btn btn-primary">{% bootstrap_icon "home" %}</button>
+	    </a>
+	    <a href="{% url 'polls:login'  %}">
+			<button type="submit" class="btn btn-primary">{% bootstrap_icon "user" %} User Login</button>
+		</a>
+		<a href="{% url 'polls:allresults'  %}">
+	    	<button type="submit" class="btn btn-primary">{% bootstrap_icon "bullhorn" %} Results</button>
+	    </a>
       
+	{% endbuttons %}
 
 
-  {% endbuttons %}
-
-<div class="row">
-  <div class="col-md-4"></div>
-  <div class="col-md-4">
-  		<h1> Voters List </h1>
-		<form action="{% url 'polls:loginsubmit' %}" method="post">
-		{% csrf_token %}
-			{% for v in voters_list %}
-				<option value="{{ v.id }}">{{ v.votersList_name }}</option>
-		        {% for choice in v.listvoters.all %}
-					<input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{ choice.id }}" />
-					<label for="choice{{ forloop.counter }}" > {{ choice.voter_name }}</label>
-					<br />
-				{% endfor %}
-		    {% endfor %}
-
-			<div class="btn-group">
-			  <button type="button submit" value="Save" class="btn btn-danger">Save</button>
-			</div>
-
-			<br />
-			<br />
-		</form>
-  </div>
- <div class="col-md-4"></div> 
-</div>
-
-
-</html>
-
-
-</html>
-
-
-
-
-		<!-- <form action="polls/login" method="post"> -->
-<!-- 		<form action="{% url 'polls:login' %}" method="post">
-
-			{% csrf_token %}
-
-
-			<div class="fieldWrapper">
-			{{ form.voters.errors }}
-			<label for="id_voters">Select a voter from the list:</label>
-			{{ form.voters }}
-			</div>
-
-			<div class="btn-group">
-				<button type="button submit" value="Save" class="btn btn-danger">Save</button>
-			</div>
-
-			<div class="page-footer">
+	<h1> Voters List </h1>
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	<form action="{% url 'polls:loginsubmit' %}" method="post">
+	{% csrf_token %}
+		{% for v in voters_list %}
+			<h4> Select a voter from the List: </h4>
 
 			</div>
-
-		</form> -->
-<!-- 		<tr><th><label for="id_filter_by">Select a voter: </label></th><td><select id="id_filter_by" name="selectedVoter" required>
-		<option value="voter1" selected="selected">Voter1</option>
-		<option value="voter" >Voter2</option>
-		</select></td></tr> -->
-
-<!-- 		<form action="{% url 'polls:login' %}"method="post">
-		    <select name="voters">
-		    {% for v in test_ballot_list %}
-		        <option value="{{ v.id }}">{{ v.voters }}</option>
-		    {% endfor %}
-		    {% for v in VotersList %}
-			<li>{{ v.voters }}</li>
+	        {% for choice in v.listvoters.all %}
+				<input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{ choice.id }}" />
+				<label for="choice{{ forloop.counter }}" > {{ choice.voter_name }}</label>
+				<br />
 			{% endfor %}
-		    </select>
-		    <button>Submit</button>
-		</form>
+	    {% endfor %}
 
-		<a href="{% url 'polls:index'  %}">
-      		<button type="submit" class="btn btn-primary">{% bootstrap_icon "home" %} Save & Return </button>
-    	</a> -->
+		<div class="btn-group">
+		  <button type="button submit" value="Save" class="btn btn-danger">Save</button>
+		</div>
+
+		<br />
+		<br />
+	</form>
+
+
+
+	<div class="page-footer">
+
+	</div>
+</html>

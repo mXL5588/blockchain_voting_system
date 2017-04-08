@@ -1,6 +1,4 @@
 {% load staticfiles %}
-{% load poll_extras %}
-
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -21,7 +19,31 @@
 
 		{# Display django.contrib.messages as Bootstrap alerts #}
 		{% bootstrap_messages %}
+
+		
+
 	</head>
+	<body>
+
+		
+
+	<div class="page-header">
+
+
+	{% buttons %}
+
+	 	<a href="{% url 'polls:index'  %}">
+			<button type="submit" class="btn btn-primary">{% bootstrap_icon "home" %}</button>
+	    </a>
+	    <a href="{% url 'polls:login'  %}">
+			<button type="submit" class="btn btn-primary">{% bootstrap_icon "user" %} User Login</button>
+		</a>
+		<a href="{% url 'polls:allresults'  %}">
+	    	<button type="submit" class="btn btn-primary">{% bootstrap_icon "bullhorn" %} Results</button>
+	    </a>
+      
+	{% endbuttons %}
+	
 	<div class="page-header">
 		<h1> {{ ballot.ballot_text }}</h1>
 		<small>Vote Tally</small>
@@ -42,4 +64,8 @@
 
 
 	<a href="{% url 'polls:detail' ballot.id %} ">Vote again?</a>
+
+	<div class="page-footer">
+
+	</div>
 </html>

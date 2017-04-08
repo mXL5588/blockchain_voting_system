@@ -38,7 +38,7 @@ def lower(value): # Only one argument.
 def vote(request, ballot_id):
 	#return HttpResponse("You're voting on ballot %s" % ballot_id)
 	ballot = get_object_or_404(Ballot, pk=ballot_id)
-
+	print("Ballot Name: ", ballot.ballot_name)
 	try:
 		selected_choice = ballot.contestants.get(pk=request.POST['choice'])
 
@@ -107,8 +107,8 @@ class IndexView(generic.ListView):
 		voterList = VotersList.objects.all()[0]
 		list = getAssetList(voterList.currentVoterChoice)
 		ballotList = []
-		for ballot in Ballot.objects.all():
-			for name in list:
+		for name in list:
+			for ballot in Ballot.objects.all():
 				if name == ballot.ballot_name:
 					ballotList.append(ballot)
 
@@ -120,6 +120,15 @@ class LoginView(generic.ListView):
 
 	def get_queryset(self):
 		return VotersList.objects.all()
+
+
+
+class AllResults(generic.ListView):
+	template_name = 'polls/allResults.html'
+	context_object_name = 'all_ballots_list'
+
+	def get_queryset(self):
+		return Ballot.objects.all()
 
 
 # class LoginView(FormView):

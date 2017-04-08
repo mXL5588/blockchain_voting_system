@@ -14,6 +14,8 @@ urlpatterns = [
     
     url(r'^loginsubmit/$', views.LoginSubmit, name='loginsubmit'),
 
+    url(r'^allresults/$', views.AllResults.as_view(), name='allresults'),
+
     # ex: /polls/5/
     # the 'name' value as called by the {$ url $} template tag
     #url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),

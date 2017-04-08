@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load poll_extras %}
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -44,53 +46,23 @@
       
 	{% endbuttons %}
 
-	<h1>{{ ballot.ballot_name }}</h1>
-	<h4>Select a ballot candidate:</h4>
-
-
+	<h1>Results:</h1>
+	<h4>All Ballots are listed below:</h4>
 	</div>
 
 
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-
-	<form action="{% url 'polls:vote' ballot.id %}" method="post">
-
-	{% csrf_token %}
-	{% for choice in ballot.contestants.all %}
-		<input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{ choice.id }}" />
-		<label for="choice{{ forloop.counter }}" > {{ choice.contestant_name }}</label>
-		<!-- Display/Hide Counterparty Address -->
-		<br />
-		<small for="choice{{ forloop.counter }}" > Bitcoin Address: {{ choice.contestant_address }}</small>
-		<br />
-
-		{% endfor %}
-
-
-		<!-- Single button -->
-		<div class="btn-group">
-		  <button type="button submit" value="Vote" class="btn btn-danger">Vote</button>
-		</div>
-
-		<br />
-		<br />
-
-
-<!-- 		<div class="btn-group btn-group-justified" role="group" aria-label="...">
-		  <div class="btn-group" role="group">
-		    <a href="{% url 'polls:index'  %}">
-	    		<button type="button" class="btn btn-default"><a href="{% url 'polls:index' %}"></a>Go Back</button>
-	    	</a>
-		  </div>
-		  <div class="btn-group" role="group">
-		 
-		  </div>
-		</div> -->
-
-	</body>
-
-	</form>
+	{% if all_ballots_list %}
+		{% for ballot in all_ballots_list %}
+			<ul><li><h4>{{ ballot.ballot_name }}:</h4></li></ul>
+			{% for choice in ballot.contestants.all %}
+		 		<ul>{{ choice.contestant_name }} -- {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</ul>
+		 		{% endfor %}
+			{% endfor %}
+	{% else %}
+		<p>No results to display.</p>
+	{% endif %}
 
 
 	<div class="page-footer">
