@@ -85,7 +85,8 @@ def LoginSubmit(request):
 
 	except (KeyError, VotersListChoice.DoesNotExist):
 		# Redisplay the ballot voting form
-		return render(request, 'polls/login.html')
+		return render(request, 'polls/login.html',
+			{ 'voterList': voterList, 'error_message': "You didn't select a choice.",})
 	else:
 		voterList.currentVoterChoice = selected_choice.voter_address;
 		voterList.save()

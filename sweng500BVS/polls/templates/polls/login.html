@@ -46,18 +46,25 @@
 
 
 	<h1> Voters List </h1>
-	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	<h4> Select a voter from the List: </h4>
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}</sm>
+	</div>
+ 
 	<form action="{% url 'polls:loginsubmit' %}" method="post">
 	{% csrf_token %}
+		{% for choice in voterList.listvoters.all %}
+			<input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{ choice.id }}" />
+			<label for="choice{{ forloop.counter }}" > {{ choice.voter_name }}</label>
+			<br />
+			{% endfor %}
 		{% for v in voters_list %}
-			<h4> Select a voter from the List: </h4>
 
-			</div>
 	        {% for choice in v.listvoters.all %}
 				<input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{ choice.id }}" />
 				<label for="choice{{ forloop.counter }}" > {{ choice.voter_name }}</label>
 				<br />
 			{% endfor %}
+
 	    {% endfor %}
 
 		<div class="btn-group">
