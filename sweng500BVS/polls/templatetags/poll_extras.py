@@ -19,11 +19,6 @@ def lower(value):
 def current_time(format_string):
     return datetime.datetime.now().strftime(format_string)
 
-@register.simple_tag
-def test():
-	now = 'test 123'
-	
-	return now
 
 @register.simple_tag
 def getCounterpartyInfo():

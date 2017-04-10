@@ -4,7 +4,7 @@ import json
 import requests
 from requests.auth import HTTPBasicAuth
 from django.http import HttpResponse
-from .counterparty import createIssuance, createSend, signRawTransaction, sendRawTransaction, getBalance
+from .counterparty import *
 
 
 
@@ -45,6 +45,12 @@ class BallotAdmin(admin.ModelAdmin):
         print("********************************************************************************")
         print("Issuance: ", obj.ballot_address)
         if obj.ballot_issued == False:
+          #input code to check XCP balance here then execute burnBTC if the amount is less than .5 XCP
+          #burnBTC(sourceAddress, AmountInSatoshisToBurn)
+
+          #validate a bitcoin address
+          validateAddress(obj.ballot_address)
+
           response = createIssuance(obj.ballot_address,obj.ballot_name)
           jsonObj = json.loads(response.text)
           if 'error' not in jsonObj:
@@ -81,7 +87,11 @@ class BallotAdmin(admin.ModelAdmin):
             # Get the object's attribute (Model field)
             print("Voter Address: ", instance.voter_address)
             print("Voter Text: ", instance.voter_name)
-
+            
+            #validate a bitcoin address
+            validateAddress(instance.voter_address)
+            #send fee amount to voter for resend to candidate
+            sendBTCToAddress(instance.voter_address, .01)
             response = createSend(form.instance.ballot_address, instance.voter_address, form.instance.ballot_name)
             jsonObj = json.loads(response.text)
             if 'error' not in jsonObj:
