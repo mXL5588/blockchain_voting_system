@@ -10,7 +10,7 @@ from datetime import datetime
 from django.utils import timezone
 from django.views.generic import FormView  
 from .counterparty import createIssuance, createSend, signRawTransaction, sendRawTransaction, getBalance
-
+from .mycharts import MyBarChartDrawing
 
 # Create your views here.
 #def hour(request):
@@ -159,3 +159,32 @@ class ResultsView(generic.DetailView):
 	model = Ballot
 	template_name = 'polls/results.html'
 	
+
+
+
+def barchart(request):
+
+    #instantiate a drawing object
+    print(request)
+    d = MyBarChartDrawing()
+
+    #extract the request params of interest.
+    #I suggest having a default for everything.
+    if 'height' in request:
+        d.height = int(request['height'])
+    if 'width' in request:
+        d.width = int(request['width'])
+    
+    if 'numbers' in request:
+        strNumbers = request['numbers']
+        numbers = map(int, strNumbers.split(','))    
+        d.chart.data = [numbers]   #bar charts take a list-of-lists for data
+
+    if 'title' in request:
+        d.title.text = request['title']
+    d.title.text = 'Basic chart'
+
+    #get a GIF (or PNG, JPG, or whatever)
+    binaryStuff = d.asString('gif')
+    
+    return HttpResponse(binaryStuff, 'image/gif')

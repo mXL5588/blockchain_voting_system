@@ -1,6 +1,7 @@
 {% load staticfiles %}
 {% load poll_extras %}
 
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -12,6 +13,7 @@
 		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.css' %}">
 		<link rel="script" href="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}">
 		<link rel="stylesheet" href="{% static 'css/polls.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
 		{# Load the tag library #}
 		{% load bootstrap3 %}
 
@@ -26,8 +28,6 @@
 
 	</head>
 	<body>
-
-		
 
 	<div class="page-header">
 
@@ -68,4 +68,5 @@
 	<div class="page-footer">
 
 	</div>
+</body>
 </html>

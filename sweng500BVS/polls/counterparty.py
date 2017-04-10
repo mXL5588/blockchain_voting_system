@@ -39,6 +39,25 @@ def getBalance(address,asset):
       result = results['asset'], ":" , results['quantity']
   return result
 
+def getBallotCandidateBalance(candidateAddress, asset):
+# Fetch all balances for all assets for both of two addresses, using keyword-based arguments
+  payload = {
+     "method": "get_balances",
+     "params": {
+                "filters": [{"field": "address", "op": "==", "value": address}],
+                "filterop": "or"
+               },
+     "jsonrpc": "2.0",
+     "id": 0
+    }
+  node=json.dumps(payload)
+  response = requests.post(url, data=node, headers=headers, auth=auth)
+  jsonObj = json.loads(response.text)
+  for results in jsonObj['result']:
+    if results['asset'] == asset:
+      return results['quantity']
+  return 0
+
 
 def getAssetList(address):
   result = []
