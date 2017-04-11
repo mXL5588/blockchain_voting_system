@@ -12,20 +12,8 @@ from django.views.generic import FormView
 from .counterparty import createIssuance, createSend, signRawTransaction, sendRawTransaction, getBalance
 from .mycharts import MyBarChartDrawing
 
-# Create your views here.
-#def hour(request):
-	#now = datetime.now()
-	#testlist = ['Bern','Bob','Eufronio','Epifanio','El pug']
-	#return render(request, 'polls/index.html', {"list": list})
-	#return render_to_response({"testlist": testlist})
 
 # Create your views here.
-
-
-
-# def post_list(request):
-#     posts = 'Bern'
-#     return render(request, 'polls/index.html',{'tests': posts})
 
 # def current_datetime(request):
 # 	html = "It is now test." 
@@ -160,7 +148,9 @@ class ResultsView(generic.DetailView):
 	template_name = 'polls/results.html'
 	
 
-
+def AboutView(request):
+	template_name = 'polls/about.html'
+	return render(request, 'polls/about.html')
 
 def barchart(request):
 

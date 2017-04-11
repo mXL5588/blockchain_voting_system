@@ -19,6 +19,8 @@ urlpatterns = [
 
     url(r'^login/$', views.LoginView.as_view(), name='login'),
 
+    url(r'^about/$', views.AboutView, name='about'),
+
     url(r'^chart/$', model_property,
     {
         'title': 'Column chart',

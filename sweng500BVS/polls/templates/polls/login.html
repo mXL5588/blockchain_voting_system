@@ -40,7 +40,10 @@
 			<button type="submit" class="btn btn-primary">{% bootstrap_icon "user" %} User Login</button>
 		</a>
 		<a href="{% url 'polls:allresults'  %}">
-	    	<button type="submit" class="btn btn-primary">{% bootstrap_icon "bullhorn" %} Results</button>
+	    	<button type="submit" class="btn btn-primary">{% bootstrap_icon "glyphicon glyphicon-signal" %} Results</button>
+	    </a>
+      	<a href="{% url 'polls:about'  %}">
+	    	<button type="submit" class="btn btn-primary">{% bootstrap_icon "glyphicon glyphicon-info-sign" %} </button>
 	    </a>
       
 	{% endbuttons %}

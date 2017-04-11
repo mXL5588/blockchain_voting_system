@@ -1,6 +1,7 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
+
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -45,59 +46,18 @@
       	<a href="{% url 'polls:about'  %}">
 	    	<button type="submit" class="btn btn-primary">{% bootstrap_icon "glyphicon glyphicon-info-sign" %} </button>
 	    </a>
-      
 	{% endbuttons %}
 
-	<h1>{{ ballot.ballot_name }}</h1>
-	<h4>Select a ballot candidate:</h4>
 
+	<h1> About Us </h1>
 
-	</div>
-
-
-	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-
-	<form action="{% url 'polls:vote' ballot.id %}" method="post">
-
-	{% csrf_token %}
-	{% for choice in ballot.contestants.all %}
-		<input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{ choice.id }}" />
-		<label for="choice{{ forloop.counter }}" > {{ choice.contestant_name }}</label>
-		<!-- Display/Hide Counterparty Address -->
-		<br />
-		<small for="choice{{ forloop.counter }}" > Bitcoin Address: {{ choice.contestant_address }}</small>
-		<br />
-
-		{% endfor %}
-
-
-		<!-- Single button -->
-		<div class="btn-group">
-		  <button type="button submit" value="Vote" class="btn btn-danger">Vote</button>
-		</div>
-
-		<br />
-		<br />
-
-
-<!-- 		<div class="btn-group btn-group-justified" role="group" aria-label="...">
-		  <div class="btn-group" role="group">
-		    <a href="{% url 'polls:index'  %}">
-	    		<button type="button" class="btn btn-default"><a href="{% url 'polls:index' %}"></a>Go Back</button>
-	    	</a>
-		  </div>
-		  <div class="btn-group" role="group">
-		 
-		  </div>
-		</div> -->
-
-	</body>
-
-	</form>
 
 
 	<div class="page-footer">
-
+	<h4> The Developers: </h4>
+		<small><ul>mxl</ul></small>
+		<small><ul>tms</ul></small>
+		<small><ul>ck</ul></small>
+		<small><ul>zc</ul></small>
 	</div>
 </html>
