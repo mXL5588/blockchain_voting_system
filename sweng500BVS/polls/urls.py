@@ -21,13 +21,7 @@ urlpatterns = [
 
     url(r'^about/$', views.AboutView, name='about'),
 
-    url(r'^chart/$', model_property,
-    {
-        'title': 'Column chart',
-        'sidebar_section': 'Charts',
-    },
-    name='column_chart',
-    ),
+    url(r'^chart/$', views.model_property, name='column_chart'),
     
     url(r'^loginsubmit/$', views.LoginSubmit, name='loginsubmit'),
 

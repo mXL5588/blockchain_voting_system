@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load poll_extras %}
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -51,7 +52,7 @@
 
 	<div class="page-header">
 		<h1> {{ ballot.ballot_text }}</h1>
-		<small>Vote Tally From Database:</small>
+		<small>Vote Tally</small>
 	</div>
 	<ul>
 		 {% for choice in ballot.contestants.all %}
@@ -59,7 +60,7 @@
 		 {% endfor %}
 
 	</ul>
-	<small>Vote Tally from Counterparty Blockchain:</small> <br />
+	<small>Vote Tally from Counterparty:</small> <br />
 	<ul>
 		 {% for choice in ballot.contestants.all %}
 		 	<li>{{ choice.contestant_name }} -- {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</li>
