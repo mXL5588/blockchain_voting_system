@@ -160,7 +160,7 @@ class xcpRPCHost(object):
         #print(rpcMethod)
         #print(params)
         payload = json.dumps({"method": rpcMethod, "params": params, "jsonrpc": "2.0", "id": 0})
-        print (payload)
+        #print (payload)
         tries = 10
         hadConnectionFailures = False
         while True:
@@ -291,6 +291,7 @@ def getCandidateBalance(candidateAddress):
   print("Candidate Balance:", candidateBalance)
   return candidateBalance
 
+
 # lock the ballot
 def lockBallot(sourceAddress, assetName):
   objParams = {
@@ -325,3 +326,15 @@ def validateAddress(address):
     validation = btcHost.call('validateaddress', address)
     print("Address Validation: ", validation)
     return validation
+
+def getAssetBalance(address, assetName):
+  objParams = {
+                "filters": [{"field": "address", "op": "==", "value": address}],
+                "filterop": "or"
+               }
+
+  payload = xcpHost.call('get_balances', objParams)
+  for results in payload:
+    if results['asset'] == assetName:
+      quantity = results['quantity']
+  return quantity
