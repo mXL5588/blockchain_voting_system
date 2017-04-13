@@ -96,11 +96,16 @@ class IndexView(generic.ListView):
 		print("*********************Ballots returned reached********************************")
 		voterList = VotersList.objects.all()[0]
 		list = getAssetList(voterList.currentVoterChoice)
+		voterAddress = (voterList.currentVoterChoice)
 		ballotList = []
 		for name in list:
 			for ballot in Ballot.objects.all():
+				balanceCheck = getAssetBalance(voterAddress, name)
 				if name == ballot.ballot_name:
-					ballotList.append(ballot)
+					print("BALANCE ", balanceCheck, name)
+					if balanceCheck >= 1:
+						print("MATCH")
+						ballotList.append(ballot)
 
 		return ballotList
 
