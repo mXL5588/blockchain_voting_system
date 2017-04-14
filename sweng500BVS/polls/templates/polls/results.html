@@ -1,54 +1,16 @@
+{% extends 'polls/base.html' %}
 {% load staticfiles %}
 {% load poll_extras %}
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-		<link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
-		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.css' %}">
-		<link rel="script" href="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}">
-		<link rel="stylesheet" href="{% static 'css/polls.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
-		{# Load the tag library #}
-		{% load bootstrap3 %}
 
-		{# Load CSS and JavaScript #}
-		{% bootstrap_css %}
-		{% bootstrap_javascript %}
+{% block body-content %}
+<ul class="breadcrumb">
+  <li><a href="{%url  'polls:home' %}">Home</a></li>
+  <li><a href="{% url 'polls:index' %}">Ballots</a></li>
+  <li><a href="{% url 'polls:detail' ballot.id %}">Voting</a></li>
+  <li class="active">Results</li>
+</ul>
 
-		{# Display django.contrib.messages as Bootstrap alerts #}
-		{% bootstrap_messages %}
-
-		
-
-	</head>
-	<body>
-
-		
-
-	<div class="page-header">
-
-
-	{% buttons %}
-
-	 	<a href="{% url 'polls:index'  %}">
-			<button type="submit" class="btn btn-primary">{% bootstrap_icon "home" %}</button>
-	    </a>
-	    <a href="{% url 'polls:login'  %}">
-			<button type="submit" class="btn btn-primary">{% bootstrap_icon "user" %} User Login</button>
-		</a>
-		<a href="{% url 'polls:allresults'  %}">
-	    	<button type="submit" class="btn btn-primary">{% bootstrap_icon "glyphicon glyphicon-signal" %} Results</button>
-	    </a>
-      	<a href="{% url 'polls:about'  %}">
-	    	<button type="submit" class="btn btn-primary">{% bootstrap_icon "glyphicon glyphicon-info-sign" %} </button>
-	    </a>
-      
-	{% endbuttons %}
 
 		<h1> Ballot Results</h1>
 		<h4>Ballot Name: {{ ballot.ballot_name }}</h4>
@@ -70,7 +32,4 @@
 
 	</ul>
 
-	<div class="page-footer">
-
-	</div>
-</html>
+{% endblock %}

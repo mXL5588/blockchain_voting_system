@@ -1,61 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        {% load staticfiles %}
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
-        <link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.css' %}">
-        <link rel="script" href="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}">
-        <link rel="stylesheet" href="{% static 'css/polls.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
-        {# Load the tag library #}
-        {% load bootstrap3 %}
+{% extends 'polls/base.html' %}
+{% load staticfiles %}
 
-        {# Load CSS and JavaScript #}
-        {% bootstrap_css %}
-        {% bootstrap_javascript %}
 
-        {# Display django.contrib.messages as Bootstrap alerts #}
-        {% bootstrap_messages %}
+    {% block body-javascript %}
         {% load static %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
         <script src="{% get_static_prefix %}js/highcharts/highcharts.js"
         type="text/javascript"></script>
         <script src="{% get_static_prefix %}js/highcharts/themes/default.js"
         type="text/javascript"></script>
-        {%block chart_loader_header %}{% endblock %}
-    </head>
-    <body>
-    <div class="page-header">
+        {% block chart_loader_header %}{% endblock %}
+    {% endblock %}
 
-
-    {% buttons %}
-
-        <a href="{% url 'polls:index'  %}">
-            <button type="submit" class="btn btn-primary">{% bootstrap_icon "home" %}</button>
-        </a>
-        <a href="{% url 'polls:login'  %}">
-            <button type="submit" class="btn btn-primary">{% bootstrap_icon "user" %} User Login</button>
-        </a>
-        <a href="{% url 'polls:allresults'  %}">
-            <button type="submit" class="btn btn-primary">{% bootstrap_icon "glyphicon glyphicon-signal" %} Results</button>
-        </a>
-        <a href="{% url 'polls:about'  %}">
-            <button type="submit" class="btn btn-primary">{% bootstrap_icon "glyphicon glyphicon-info-sign" %} </button>
-        </a>
-      
-    {% endbuttons %}
-    </br></br></br>
-    </div>
-
+{% block body-content %}
+    <ul class="breadcrumb">
+      <li><a href="{% url 'polls:home' %}">Home</a></li>
+        <li><a href="{% url 'polls:allresults' %}">Results</a></li>
+      <li class="active">Charts</li>
+    </ul>
     {% block chart_code %}{% endblock %}
     </br></br></br>
     <a href="{% url 'polls:allresults'  %}">
         <button type="submit" class="btn btn-primary btn-lg btn-block"> Go Back</button>
     </a>
-    </body>
-</html>
+{% endblock %}

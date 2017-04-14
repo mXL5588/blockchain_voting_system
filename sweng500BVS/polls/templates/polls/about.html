@@ -1,63 +1,16 @@
+{% extends 'polls/base.html' %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
 
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-		<link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
-		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.css' %}">
-		<link rel="script" href="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}">
-		<link rel="stylesheet" href="{% static 'css/polls.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
-		{# Load the tag library #}
-		{% load bootstrap3 %}
-
-		{# Load CSS and JavaScript #}
-		{% bootstrap_css %}
-		{% bootstrap_javascript %}
-
-		{# Display django.contrib.messages as Bootstrap alerts #}
-		{% bootstrap_messages %}
-
-		
-
-	</head>
-	<body>
-
-		
-
-	<div class="page-header">
-
-
-	{% buttons %}
-
-	 	<a href="{% url 'polls:index'  %}">
-			<button type="submit" class="btn btn-primary">{% bootstrap_icon "home" %}</button>
-	    </a>
-	    <a href="{% url 'polls:login'  %}">
-			<button type="submit" class="btn btn-primary">{% bootstrap_icon "user" %} User Login</button>
-		</a>
-		<a href="{% url 'polls:allresults'  %}">
-	    	<button type="submit" class="btn btn-primary">{% bootstrap_icon "glyphicon glyphicon-signal" %} Results</button>
-	    </a>
-      	<a href="{% url 'polls:about'  %}">
-	    	<button type="submit" class="btn btn-primary">{% bootstrap_icon "glyphicon glyphicon-info-sign" %} </button>
-	    </a>
-	{% endbuttons %}
-
-
+{% block body-content %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'polls:home' %}">Home</a></li>
+  <li class="active">About Us</li>
+</ul>
 	<h1> About Us </h1>
-
-
-
-	<div class="page-footer">
 	<h4> The Developers: </h4>
 		<small><ul>mxl</ul></small>
 		<small><ul>tms</ul></small>
 		<small><ul>ck</ul></small>
 		<small><ul>zc</ul></small>
 	</div>
-</html>
+{% endblock %}
