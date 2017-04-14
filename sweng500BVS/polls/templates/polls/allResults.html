@@ -49,8 +49,8 @@
       
 	{% endbuttons %}
 
-	<h1>Results:</h1>
-	<h4>All Ballots are listed below:</h4>
+    <h1>Results:</h1>
+    <h4>Select a ballot to display its graph</h4>
 	</div>
 
 
@@ -58,13 +58,13 @@
 
 	{% if all_ballots_list %}
 		{% for ballot in all_ballots_list %}
-			<ul><li><h4>{{ ballot.ballot_name }}:</h4></li></ul>
+			<ul><li><a href="{% url 'polls:chart' ballot.id %}"> {{ ballot.ballot_name }}</a></li></ul>
 			{% for choice in ballot.contestants.all %}
 		 		<ul>{{ choice.contestant_name }} -- {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</ul>
 		 		{% endfor %}
 			{% endfor %}
 	{% else %}
-		<p>No results to display.</p>
+		<p>No Ballots to display.</p>
 	{% endif %}
 
 

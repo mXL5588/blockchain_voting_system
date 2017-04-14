@@ -59,6 +59,8 @@ class ContestantChoice(models.Model):
 	contestant_name = models.CharField(max_length=200)
 	contestant_address = models.CharField(max_length=36, choices= CONTESTANT_ADDRESSES)
 	votes = models.IntegerField(default=0)
+	confirmedVotes = models.IntegerField(default=0)
+	unconfirmedVotes = models.IntegerField(default=0)
 
 	def __str__(self):
 		return self.contestant_name

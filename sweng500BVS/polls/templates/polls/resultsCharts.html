@@ -49,22 +49,13 @@
         </a>
       
     {% endbuttons %}
-
-    <h1>Results:</h1>
-    <h4>Select a ballot to display its graph</h4>
+    </br></br></br>
     </div>
 
-
-    {% if all_ballots_list %}
-        <ul>
-        {% for ballot in all_ballots_list %}
-            <li><a href="{% url 'polls:chart' %}"> {{ ballot.ballot_name }}</a></li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No polls area available.</p>
-    {% endif %}
-
     {% block chart_code %}{% endblock %}
+    </br></br></br>
+    <a href="{% url 'polls:allresults'  %}">
+        <button type="submit" class="btn btn-primary btn-lg btn-block"> Go Back</button>
+    </a>
     </body>
 </html>

@@ -47,7 +47,7 @@ def getBallotCandidateBalance(candidateAddress, asset):
   payload = {
      "method": "get_balances",
      "params": {
-                "filters": [{"field": "address", "op": "==", "value": address}],
+                "filters": [{"field": "address", "op": "==", "value": candidateAddress}],
                 "filterop": "or"
                },
      "jsonrpc": "2.0",

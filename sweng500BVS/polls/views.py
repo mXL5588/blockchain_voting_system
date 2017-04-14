@@ -126,25 +126,6 @@ class AllResults(generic.ListView):
 		return Ballot.objects.all()
 
 
-# class LoginView(FormView):
-# 	template_name = 'polls/login.html'
-# 	form_class = VotersListForm
-
-# 	def form_valid(self, form):
-# 		print("Voter Address: ", VotersListForm.voters)
-# 		return HttpResponseRedirect(reverse('polls:index'))
-# 	template_name = 'polls/login.html'
-# 	model = VotersList
-# 	form_class = VotersListForm
-
-# def LoginView(request):
-# 	form = VotersListForm(request.POST or None)
-# 	if form.is_valid():
-# 		print(form.cleaned_data.get('voters'))
-# 	print(request.session.get('voters'))
-# 	return render(request, 'polls/login.html')
-
-
 class DetailView(generic.DetailView):
 	model = Ballot
 	template_name = 'polls/detail.html'
@@ -186,12 +167,12 @@ def barchart(request):
     return HttpResponse(binaryStuff, 'image/gif')
 
 
-def model_property(request):
-    print("model_property reached")
-    ballot = Ballot.objects.all()[0]
-    print("*******************************",ballot.ballot_name)
-    for c in ballot.contestants.all():
-        print("$$$$$$$$$$$$$$$$$$$$",c.votes)
+def model_property(request, pk):
+    allBallot = Ballot.objects.all()
+    ballot = Ballot.objects.get( id=pk )
+    for b in ballot.contestants.all():
+    	b.confirmedVotes = getBallotCandidateBalance(b.contestant_address, ballot.ballot_name)
+    	b.save()
 
     ds = DataPool(
             series=[{
@@ -200,7 +181,8 @@ def model_property(request):
                 },
                 'terms': [
                     'contestant_name',
-                    'votes'
+                    'votes',
+                    'confirmedVotes'
                 ]
             }]
     )
@@ -215,13 +197,14 @@ def model_property(request):
                 },
                 'terms': {
                     'contestant_name': [
-                        'votes'
+                    	'votes',
+                        'confirmedVotes'
                     ]
                 }},
             ],
             chart_options={
                 'title': {
-                    'text': 'Ballot statistics'
+                    'text': ballot.ballot_name
                 },
                 'xAxis': {
                     'title': {
@@ -234,4 +217,4 @@ def model_property(request):
     return render_to_response('polls/graph.html',
                               {
                                 'chart_list': cht,
-                                'title': "Test Chart"})
+                                'title': 'Ballot statistics'}, pk)
