@@ -78,3 +78,9 @@ class VotersListChoice(models.Model):
 	voter_address = models.CharField(max_length=36, choices=VOTER_ADDRESSES)
 	def __str__(self):
 		return self.voter_name
+
+class VoteTxList(models.Model):
+	contestant_address = models.ForeignKey(ContestantChoice, on_delete=models.CASCADE, related_name="listTx", related_query_name="listTx")
+	txId = models.CharField(max_length=366)
+	voter_address = models.CharField(max_length=36, choices=VOTER_ADDRESSES)
+

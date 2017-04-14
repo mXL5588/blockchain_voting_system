@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'flat_responsive',
     'flat', #if django version < 1.9
     'colorfield',
+    'bootstrap_ui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -125,3 +126,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# django-bootstrap-ui settings
+DJANGO_BOOTSTRAP_UI_THEME = 'bootswatch-flatly'

@@ -26,11 +26,14 @@ def Vote(request, ballot_id):
 			{ 'ballot': ballot, 'error_message': "You didn't select a choice.",})
 	else:
 		voterList = VotersList.objects.all()[0]
+		validCheck = validateAddress(selected_choice.contestant_address)
 		response = createSend(voterList.currentVoterChoice, selected_choice.contestant_address, ballot.ballot_name)
 		jsonObj = json.loads(response.text)
 		if 'error' not in jsonObj:
 			print("Response 1: ", jsonObj)
 			response = signRawTransaction(jsonObj['result'])
+			unconfirmedAssetBalance = getUnconfirmedQuantity(getXCPTxInfo(jsonObj['result']))
+			print("Length: ",len(jsonObj['result']))
 			jsonObj = json.loads(response.text)
 			if 'error' in jsonObj:
 				print("Response 2: ", jsonObj)
@@ -38,7 +41,8 @@ def Vote(request, ballot_id):
 				jsonObj = json.loads(response.text)
 				if 'error' in jsonObj:
 					print("Response 3: ", jsonObj)
-					print("Balance for ", selected_choice.contestant_name, ":", getBalance(selected_choice.contestant_address, ballot.ballot_name))
+					print("Unconfirmed Balance for:", selected_choice.contestant_name, ":", unconfirmedAssetBalance)
+					print("Confirmed Balance for:", selected_choice.contestant_name, ":", getBalance(selected_choice.contestant_address, ballot.ballot_name))
 				else:
 					print("Error-3 Response: ", jsonObj)
 			else:
@@ -89,6 +93,9 @@ class IndexView(generic.ListView):
 				balanceCheck = getAssetBalance(voterAddress, name)
 				if name == ballot.ballot_name:
 					if balanceCheck >= 1:
+						print("Ballot Name: {}, Balance: {}:", name, balanceCheck)
+						#if unconfirmedAssetBalance < 1:
+						print("UNCONFIRMED CHECK")
 						ballotList.append(ballot)
 
 		return ballotList
@@ -122,6 +129,10 @@ def AboutView(request):
 	template_name = 'polls/about.html'
 	return render(request, 'polls/about.html')
 
+
+def HomeView(request):
+	template_name = 'polls/home.html'
+	return render(request, 'polls/home.html')
 
 def BarChart(request, pk):
     allBallot = Ballot.objects.all()

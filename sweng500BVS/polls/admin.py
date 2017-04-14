@@ -49,13 +49,14 @@ class BallotAdmin(admin.ModelAdmin):
           #burnBTC(sourceAddress, AmountInSatoshisToBurn)
 
           #validate a bitcoin address
-          validateAddress(obj.ballot_address)
+          validCheck = validateAddress(obj.ballot_address)
 
           response = createIssuance(obj.ballot_address,obj.ballot_name)
           jsonObj = json.loads(response.text)
           if 'error' not in jsonObj:
             print("Response 1: ", jsonObj)
             response = signRawTransaction(jsonObj['result'])
+            #unconfirmedAssetBalance = getUnconfirmedQuantity(getXCPTxInfo(jsonObj['result']))
             jsonObj = json.loads(response.text)
             if 'error' in jsonObj:
               print("Response 2: ", jsonObj)
@@ -89,7 +90,7 @@ class BallotAdmin(admin.ModelAdmin):
             print("Voter Text: ", instance.voter_name)
             
             #validate a bitcoin address
-            validateAddress(instance.voter_address)
+            validCheck = validateAddress(instance.voter_address)
             #send fee amount to voter for resend to candidate
             sendBTCToAddress(instance.voter_address, .01)
             response = createSend(form.instance.ballot_address, instance.voter_address, form.instance.ballot_name)
@@ -97,6 +98,7 @@ class BallotAdmin(admin.ModelAdmin):
             if 'error' not in jsonObj:
               print("Response 1: ", jsonObj)
               response = signRawTransaction(jsonObj['result'])
+              unconfirmedAssetBalance = getUnconfirmedQuantity(getXCPTxInfo(jsonObj['result']))
               jsonObj = json.loads(response.text)
               if 'error' in jsonObj:
                 print("Response 2: ", jsonObj)
@@ -104,8 +106,8 @@ class BallotAdmin(admin.ModelAdmin):
                 jsonObj = json.loads(response.text)
                 if 'error' in jsonObj:
                   print("Response 3: ", jsonObj)
-
-                  print("Balance for ", instance.voter_name, ":", getBalance(instance.voter_address, form.instance.ballot_name))
+                  print("Unconfirmed Balance for: ", instance.voter_name, ":", unconfirmedAssetBalance)
+                  print("Confirmed Balance for: ", instance.voter_name, ":", getBalance(instance.voter_address, form.instance.ballot_name))
                 else:
                   print("Error-3 Response: ", jsonObj)
               else:

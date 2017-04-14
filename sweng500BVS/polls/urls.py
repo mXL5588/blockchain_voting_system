@@ -16,6 +16,8 @@ urlpatterns = [
 
     url(r'^login/$', views.LoginView.as_view(), name='login'),
 
+    url(r'^home/$', views.HomeView, name='home'),
+    
     url(r'^about/$', views.AboutView, name='about'),
 
     url(r'^chart/(?P<pk>[0-9]+)/$', views.BarChart, name='chart'),

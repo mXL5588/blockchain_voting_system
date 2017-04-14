@@ -1,0 +1,117 @@
+{% extends "bootstrap_ui/bootstrap-skeleton.html" %}
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
+<html>
+    <head>
+    {% block head-meta %}
+    	<meta name="keywords" content="blockchain, counterparty, bitcoin, voting">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	{% endblock %}
+	{% block head-title %}
+    	Blockchain Voting System
+	{% endblock %}
+    {% block head-css %}
+    {% load staticfiles %}
+    	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.css' %}">
+		
+		<link rel="stylesheet" href="{% static 'css/polls.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+		{# Load the tag library #}
+		{% load bootstrap3 %}
+
+		{# Load CSS and JavaScript #}
+		{% bootstrap_css %}
+		{% bootstrap_javascript %}
+
+		{# Display django.contrib.messages as Bootstrap alerts #}
+		{% bootstrap_messages %}
+	{% endblock %}
+
+	{% block body-javascript %}
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../js/noty/packaged/jquery.noty.packaged.min.js"></script>
+	<script type="text/javascript" src="../js/noty/themes/bootstrap.js"></script>
+	<link rel="script" href="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}">
+	
+	{% endblock %}
+	{% block head-extension %}
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" href="{% url 'polls:home' %}">Blockchain Voting System</a>
+		    </div>
+
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav">
+				<li><a href="{% url 'polls:allresults'  %}">
+				    	{% bootstrap_icon "glyphicon glyphicon-signal" %} Results
+				</a></li>
+		      	<li><a href="{% url 'polls:about'  %}">
+					    	{% bootstrap_icon "glyphicon glyphicon-info-sign" %} About Us
+				</a></li>
+		        <!-- <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Options<span class="caret"></span></a>
+		          <ul class="dropdown-menu" role="menu">
+
+		            <li><a href="#">Another action</a></li>
+		            <li><a href="#">Something else here</a></li>
+		            <li class="divider"></li>
+				      	<li><a href="{% url 'polls:about'  %}">
+					    	{% bootstrap_icon "glyphicon glyphicon-info-sign" %} About Us
+					    </a></li>
+      
+		            <li class="divider"></li>
+		            <li><a href="#">One more separated link</a></li>
+		          </ul>
+		        </li>-->
+		      </ul> 
+		      <!-- <form class="navbar-form navbar-left" role="search">
+		        <div class="form-group">
+		          <input class="form-control" placeholder="Search" type="text">
+		        </div>
+		        <button type="submit" class="btn btn-default">Submit</button>
+		      </form> -->
+		      <ul class="nav navbar-nav navbar-right">
+		         <li ><a href="{% url 'polls:login'  %}">{% bootstrap_icon "user" %} User Log In <span class="sr-only"></span></a></li>
+		      </ul>
+		    </div>
+		  </div>
+		</nav>
+		<br>
+	{% endblock %}
+    </head>
+    <body>
+
+	    <div class="content container">
+	        <div class="page-header">
+        	<h1><a href="/">Blockchain Voting System</a></h1>
+   
+    	</div>
+	        <div class="row">
+	            <div class="col-md-8">
+	            {% block body-content %}
+
+	            {% endblock %}
+	            </div>
+	        </div>
+	    </div>
+    </body>
+</html>
+
+
+
+

@@ -35,7 +35,7 @@ def getBalance(address,asset):
     }
   node=json.dumps(payload)
   response = requests.post(url, data=node, headers=headers, auth=auth)
-  print("Response for balance check: ", response.text)
+  #print("Response for balance check: ", response.text)
   jsonObj = json.loads(response.text)
   for results in jsonObj['result']:
     if results['asset'] == asset:
@@ -89,10 +89,11 @@ def createIssuance(address, assetName):
      "params": {
                 "source": address,
                 "asset": assetName,
-                "quantity": 10,
+                "quantity": 100,
                 "divisible": False,
                 "description": "This is issuance of assets for ballot",
-                "transfer_destination": ""
+                "transfer_destination": "",
+                "allow_unconfirmed_inputs": True
                },
      "jsonrpc": "2.0",
      "id": 0
@@ -108,7 +109,8 @@ def createSend(srcAddress, destAddress, assetName):
                         'source': srcAddress, 
                         'destination': destAddress,
                         'asset': assetName,
-                        'quantity': 1
+                        'quantity': 25,
+                        "allow_unconfirmed_inputs": True
                        },
              "jsonrpc": "2.0",
              "id": 0
@@ -227,7 +229,8 @@ def createAsset(sourceAddress, assetName, assetQuantity, assetDescription, isDiv
                           "asset": assetName,
                           "quantity": assetQuantity,
                           "description": assetDescription,
-                          "divisible": isDivisible}
+                          "divisible": isDivisible,
+                          "allow_unconfirmed_inputs": True}
 
     unsignedTransaction = xcpHost.call('create_issuance', objParams)
     print("Unsigned Transaction:", unsignedTransaction)
@@ -269,7 +272,8 @@ def castVote(userSourceAddress, candidateAddress, assetName, voteQuantity):
   objParams = {"source": userSourceAddress,
   "destination": candidateAddress,
   "asset": assetName,
-  "quantity": voteQuantity}
+  "quantity": voteQuantity,
+  "allow_unconfirmed_inputs": True}
   unsignedTransaction = xcpHost.call('create_send', objParams)
   print("Unsigned Transaction:", unsignedTransaction)
   return unsignedTransaction
@@ -281,6 +285,8 @@ def broadcastSignedTransaction(unsignedTransaction):
   sent = sendRawTransaction(signed)
 
   raw = getRawTransaction(sent)
+
+  return raw
 
 # unfinished getCandidateBalance
 def getCandidateBalance(candidateAddress):
@@ -324,8 +330,8 @@ def burnBTC(sourceAddress, burnQuantity):
 #validate bitcoin address is a valid address
 def validateAddress(address):
     validation = btcHost.call('validateaddress', address)
-    print("Address Validation: ", validation)
-    return validation
+    print("Address Validation: ", validation['isvalid'])
+    return validation['isvalid']
 
 def getAssetBalance(address, assetName):
   objParams = {
@@ -338,3 +344,27 @@ def getAssetBalance(address, assetName):
     if results['asset'] == assetName:
       quantity = results['quantity']
   return quantity
+
+
+def getXCPTxInfo(rawTransactionHex):
+    objParams = {
+        "tx_hex": rawTransactionHex
+        }
+    txInfo = xcpHost.call('get_tx_info', objParams)
+    print("Tx Info:", txInfo)
+    for results in txInfo:
+        dataHex = results
+    return dataHex
+
+def getUnconfirmedQuantity(dataHex):
+    print("Data Hex: ", dataHex)
+    objParams = {
+        "data_hex": dataHex
+        }
+    unpacked = xcpHost.call('unpack', objParams)
+    for results in unpacked:
+        if results != 0: 
+            quantity = results['quantity']
+            asset = results['asset']
+            #print("UNCONFIRMED QUANTITY: ", quantity)
+    return quantity
