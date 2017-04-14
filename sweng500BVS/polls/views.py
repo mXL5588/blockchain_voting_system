@@ -9,22 +9,12 @@ from .counterparty import *
 from datetime import datetime 
 from django.utils import timezone
 from django.views.generic import FormView  
-#from .counterparty import createIssuance, createSend, signRawTransaction, sendRawTransaction, getBalance, getBallotCandidateBalance
 from .mycharts import MyBarChartDrawing
 from chartit import DataPool, Chart
 
 
-# Create your views here.
 
-# def current_datetime(request):
-# 	html = "It is now test." 
-# 	return HttpResponse(html)
-
-def lower(value): # Only one argument.
-    """Converts a string into all lowercase"""
-    return value.lower()
-
-def vote(request, ballot_id):
+def Vote(request, ballot_id):
 	#return HttpResponse("You're voting on ballot %s" % ballot_id)
 	ballot = get_object_or_404(Ballot, pk=ballot_id)
 	print("Ballot Name: ", ballot.ballot_name)
@@ -91,9 +81,6 @@ class IndexView(generic.ListView):
 	context_object_name = 'latest_ballot_list'
 
 	def get_queryset(self):
-		#voterslist = .objects.all()
-		"""Return the last five published ballot"""
-		print("*********************Ballots returned reached********************************")
 		voterList = VotersList.objects.all()[0]
 		list = getAssetList(voterList.currentVoterChoice)
 		voterAddress = (voterList.currentVoterChoice)
@@ -102,9 +89,7 @@ class IndexView(generic.ListView):
 			for ballot in Ballot.objects.all():
 				balanceCheck = getAssetBalance(voterAddress, name)
 				if name == ballot.ballot_name:
-					print("BALANCE ", balanceCheck, name)
 					if balanceCheck >= 1:
-						print("MATCH")
 						ballotList.append(ballot)
 
 		return ballotList
@@ -115,7 +100,6 @@ class LoginView(generic.ListView):
 
 	def get_queryset(self):
 		return VotersList.objects.all()
-
 
 
 class AllResults(generic.ListView):
@@ -139,42 +123,15 @@ def AboutView(request):
 	template_name = 'polls/about.html'
 	return render(request, 'polls/about.html')
 
-def barchart(request):
 
-    #instantiate a drawing object
-    print(request)
-    d = MyBarChartDrawing()
-
-    #extract the request params of interest.
-    #I suggest having a default for everything.
-    if 'height' in request:
-        d.height = int(request['height'])
-    if 'width' in request:
-        d.width = int(request['width'])
-    
-    if 'numbers' in request:
-        strNumbers = request['numbers']
-        numbers = map(int, strNumbers.split(','))    
-        d.chart.data = [numbers]   #bar charts take a list-of-lists for data
-
-    if 'title' in request:
-        d.title.text = request['title']
-    d.title.text = 'Basic chart'
-
-    #get a GIF (or PNG, JPG, or whatever)
-    binaryStuff = d.asString('gif')
-    
-    return HttpResponse(binaryStuff, 'image/gif')
-
-
-def model_property(request, pk):
+def BarChart(request, pk):
     allBallot = Ballot.objects.all()
     ballot = Ballot.objects.get( id=pk )
     for b in ballot.contestants.all():
     	b.confirmedVotes = getBallotCandidateBalance(b.contestant_address, ballot.ballot_name)
     	b.save()
 
-    ds = DataPool(
+    dataSource = DataPool(
             series=[{
                 'options': {
                     'source': ballot.contestants.all(),
@@ -187,8 +144,8 @@ def model_property(request, pk):
             }]
     )
 
-    cht = Chart(
-            datasource=ds,
+    chart = Chart(
+            datasource=dataSource,
             series_options=[{
                 'options': {
                     'type': 'column',
@@ -213,8 +170,7 @@ def model_property(request, pk):
                 }
             }
     )
-    # end_code
     return render_to_response('polls/graph.html',
                               {
-                                'chart_list': cht,
+                                'chart_list': chart,
                                 'title': 'Ballot statistics'}, pk)

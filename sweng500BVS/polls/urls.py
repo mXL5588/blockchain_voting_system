@@ -15,12 +15,11 @@ urlpatterns = [
 
     url(r'^$', views.IndexView.as_view(), name='index'),
 
-
     url(r'^login/$', views.LoginView.as_view(), name='login'),
 
     url(r'^about/$', views.AboutView, name='about'),
 
-    url(r'^chart/(?P<pk>[0-9]+)/$', views.model_property, name='chart'),
+    url(r'^chart/(?P<pk>[0-9]+)/$', views.BarChart, name='chart'),
     
     url(r'^loginsubmit/$', views.LoginSubmit, name='loginsubmit'),
 
@@ -30,34 +29,12 @@ urlpatterns = [
 
 	url(r'^(?P<pk>[0-9]+)/results/$', views.ResultsView.as_view(), name='results'),
 
-	url(r'^(?P<ballot_id>[0-9]+)/vote/$', views.vote, name='vote'),
+	url(r'^(?P<ballot_id>[0-9]+)/vote/$', views.Vote, name='vote'),
 
 ]
 
 # build sidebar_items first
 seen_sections = []
-for u in urlpatterns:
-    if u.default_args:
-        section = u.default_args['sidebar_section']
-        title = u.default_args['title']
-
-        # check if we've seen this section already
-        if section not in seen_sections:
-            item = {
-                'sort_order': sort_order[section],
-                'section': section,
-                'links': [],
-            }
-            sidebar_items.append(item)
-            seen_sections.append(section)
-
-        # now add the new link to the sidebar section
-        for item in sidebar_items:
-            if item['section'] == section:
-                item['links'].append((title, u.name))
-                break
-
-        del u.default_args['sidebar_section']
 
 # now assign sidebar_items to urls
 for u in urlpatterns:
