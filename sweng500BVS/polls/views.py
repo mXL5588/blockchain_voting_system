@@ -9,7 +9,6 @@ from .counterparty import *
 from datetime import datetime 
 from django.utils import timezone
 from django.views.generic import FormView  
-from .mycharts import MyBarChartDrawing
 from chartit import DataPool, Chart
 
 

@@ -1,5 +1,4 @@
 from django.conf.urls import url
-from .charts import model_property
 
 from . import views
 
