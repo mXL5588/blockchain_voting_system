@@ -76,7 +76,7 @@ def getAssetList(address):
     }
   node=json.dumps(payload)
   response = requests.post(url, data=node, headers=headers, auth=auth)
-  
+  #print(response.text)
   jsonObj = json.loads(response.text)
   for results in jsonObj['result']:
       result.append(results['asset'])
@@ -89,7 +89,7 @@ def createIssuance(address, assetName):
      "params": {
                 "source": address,
                 "asset": assetName,
-                "quantity": 100,
+                "quantity": 10,
                 "divisible": False,
                 "description": "This is issuance of assets for ballot",
                 "transfer_destination": "",
@@ -109,7 +109,7 @@ def createSend(srcAddress, destAddress, assetName):
                         'source': srcAddress, 
                         'destination': destAddress,
                         'asset': assetName,
-                        'quantity': 25,
+                        'quantity': 1,
                         "allow_unconfirmed_inputs": True
                        },
              "jsonrpc": "2.0",

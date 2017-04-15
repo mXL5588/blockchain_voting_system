@@ -32,7 +32,11 @@ def Vote(request, ballot_id):
 		if 'error' not in jsonObj:
 			print("Response 1: ", jsonObj)
 			response = signRawTransaction(jsonObj['result'])
-			unconfirmedAssetBalance = getUnconfirmedQuantity(getXCPTxInfo(jsonObj['result']))
+			#Save this hex value to use it for finding unconfirmed transaction
+			for voter in ballot.voters.all():
+				if voterList.currentVoterChoice == voter.voter_address:
+					voter.sendHex = getXCPTxInfo(jsonObj['result'])
+					voter.save()
 			print("Length: ",len(jsonObj['result']))
 			jsonObj = json.loads(response.text)
 			if 'error' in jsonObj:
@@ -41,7 +45,6 @@ def Vote(request, ballot_id):
 				jsonObj = json.loads(response.text)
 				if 'error' in jsonObj:
 					print("Response 3: ", jsonObj)
-					print("Unconfirmed Balance for:", selected_choice.contestant_name, ":", unconfirmedAssetBalance)
 					print("Confirmed Balance for:", selected_choice.contestant_name, ":", getBalance(selected_choice.contestant_address, ballot.ballot_name))
 				else:
 					print("Error-3 Response: ", jsonObj)
@@ -62,21 +65,32 @@ def Vote(request, ballot_id):
 
 def LoginSubmit(request):
 	voterList = VotersList.objects.all()[0]
-	try:
-		selected_choice = voterList.listvoters.get(pk=request.POST['choice'])
+	# try:
+	# 	selected_choice = voterList.listvoters.get(pk=request.POST['inputUserName'])
 
-	except (KeyError, VotersListChoice.DoesNotExist):
-		# Redisplay the ballot voting form
-		return render(request, 'polls/login.html',
-			{ 'voterList': voterList, 'error_message': "You didn't select a choice.",})
-	else:
-		voterList.currentVoterChoice = selected_choice.voter_address;
-		voterList.save()
-		# Always return an HTTPResponseRedirect after successfully dealing 
-		# with POST data. This prevents data from being posted twice if a
-		# user hits the back button.
+	# except (KeyError, VotersListChoice.DoesNotExist):
+	# 	# Redisplay the ballot voting form
+	# 	return render(request, 'polls/login.html',
+	# 		{ 'voterList': voterList, 'error_message': "You didn't select a choice.",})
+	# else:
+	# 	voterList.currentVoterChoice = selected_choice.voter_address;
+	# 	voterList.save()
+	# 	# Always return an HTTPResponseRedirect after successfully dealing 
+	# 	# with POST data. This prevents data from being posted twice if a
+	# 	# user hits the back button.
+	for voter in voterList.listvoters.all():
+		if voter.voter_name == request.POST['inputUserName']:
+			if voter.voter_name == request.POST['inputPassword']:
+				voterList.currentVoterChoice = voter.voter_address;
+				return HttpResponseRedirect(reverse('polls:index'))
+			else:
+				return render(request, 'polls/login.html',
+					{ 'voterList': voterList, 'error_message': "Invalid passwrod",})
+	return render(request, 'polls/login.html',
+		{ 'voterList': voterList, 'error_message': "Invalid credentials",})
 
-		return HttpResponseRedirect(reverse('polls:index'))
+
+		
 
 
 class IndexView(generic.ListView):
@@ -90,14 +104,18 @@ class IndexView(generic.ListView):
 		ballotList = []
 		for name in list:
 			for ballot in Ballot.objects.all():
-				balanceCheck = getAssetBalance(voterAddress, name)
 				if name == ballot.ballot_name:
+					balanceCheck = getAssetBalance(voterAddress, name)
 					if balanceCheck >= 1:
-						print("Ballot Name: {}, Balance: {}:", name, balanceCheck)
-						#if unconfirmedAssetBalance < 1:
-						print("UNCONFIRMED CHECK")
-						ballotList.append(ballot)
-
+						for voter in ballot.voters.all():
+							if voterList.currentVoterChoice == voter.voter_address:
+								if voter.sendHex == 'None':
+									ballotList.append(ballot)
+								else:
+									if getUnconfirmedQuantity(voter.sendHex) != 1:
+										ballotList.append(ballot)
+									else:
+										print("Unconfirmed transaction not added")
 		return ballotList
 
 class LoginView(generic.ListView):
@@ -134,53 +152,59 @@ def HomeView(request):
 	template_name = 'polls/home.html'
 	return render(request, 'polls/home.html')
 
+
 def BarChart(request, pk):
-    allBallot = Ballot.objects.all()
-    ballot = Ballot.objects.get( id=pk )
-    for b in ballot.contestants.all():
-    	b.confirmedVotes = getBallotCandidateBalance(b.contestant_address, ballot.ballot_name)
-    	b.save()
+	allBallot = Ballot.objects.all()
+	ballot = Ballot.objects.get( id=pk )
+	unconfirmedVotes = 0
+	for voter in ballot.voters.all():
+		if voter.sendHex != 'None':
+			if getUnconfirmedQuantity(voter.sendHex) == 1:
+				unconfirmedVotes = unconfirmedVotes + 1
 
-    dataSource = DataPool(
-            series=[{
-                'options': {
-                    'source': ballot.contestants.all(),
-                },
-                'terms': [
-                    'contestant_name',
-                    'votes',
-                    'confirmedVotes'
-                ]
-            }]
-    )
+	for b in ballot.contestants.all():
+		b.confirmedVotes = getBallotCandidateBalance(b.contestant_address, ballot.ballot_name)
+		b.unconfirmedVotes = 10
+		b.save()
 
-    chart = Chart(
-            datasource=dataSource,
-            series_options=[{
-                'options': {
-                    'type': 'column',
-                    'stacking': False,
-                    'stack': 0,
-                },
-                'terms': {
-                    'contestant_name': [
-                    	'votes',
-                        'confirmedVotes'
-                    ]
-                }},
-            ],
-            chart_options={
-                'title': {
-                    'text': ballot.ballot_name
-                },
-                'xAxis': {
-                    'title': {
-                        'text': 'Contestants'
-                    }
-                }
-            }
-    )
-    return render_to_response('polls/graph.html',
-                              {
-                                'chart_list': chart,
-                                'title': 'Ballot statistics'}, pk)
+	dataSource = DataPool(
+			series=[{
+				'options': {
+			    	'source': ballot.contestants.all(),
+			    },
+			    'terms': [
+			    	'contestant_name',
+			    	'confirmedVotes',
+			    ]
+			}]
+	)
+
+	chart = Chart(
+			datasource=dataSource,
+			series_options=[{
+				'options': {
+					'type': 'column',
+					'stacking': False,
+					'stack': 0,
+	            },
+			    'terms': {
+					'contestant_name': [
+						'confirmedVotes'
+					]
+				}}
+			],
+			chart_options={
+				'title': {
+					'text': ballot.ballot_name
+				},
+				'xAxis': {
+					'title': {
+						'text': 'Contestants'
+					}
+				}
+			}
+	)
+	return render_to_response('polls/graph.html',
+							{
+							'chart_list': chart,
+							'title': 'Ballot statistics'}, pk)
