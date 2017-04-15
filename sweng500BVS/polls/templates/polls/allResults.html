@@ -14,7 +14,8 @@
 	</div>
 	<div class="row">
 		<div class="page-header">
-  			<h1>Results:<br><small>Select a ballot to display its graph</small></h1>
+		  	<h1>Ballot Results</h1>
+  			<h5>Click on Ballot Name to display its graph</h5>
 		</div>
 	</div>
 
@@ -27,9 +28,14 @@
   				<a href="{% url 'polls:chart' ballot.id %}" class="list-group-item active">
     				{{ ballot.ballot_name }}
  				</a>
-  				{% for choice in ballot.contestants.all %}
-		 			<ul class="list-group-item">{{ choice.contestant_name }} -- {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</ul>
-		 		{% endfor %}
+ 				</br>
+				<ul>
+					 {% for choice in ballot.contestants.all %}
+					 	<li><h5>Contestant {{ choice.contestant_name }} Votes: {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</h5></li>
+					 {% endfor %}
+					 <li><h5>Total Unconfirmed Votes: {{ballot.unconfirmedVotes}}</h5></li>
+				</ul>
+				</br>
 			</div>
 		{% endfor %}
 

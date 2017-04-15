@@ -60,7 +60,7 @@ def getBallotCandidateBalance(candidateAddress, asset):
 	for results in jsonObj['result']:
 		if results['asset'] == asset:
 			return results['quantity']
-	return "No assets found"
+	return 0
 
 @register.simple_tag
 def castBallot(strSourceAddress, strCandidateAddress, strAssetName):

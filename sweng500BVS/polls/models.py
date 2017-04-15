@@ -35,6 +35,7 @@ class Ballot(models.Model):
 	isItVoter = models.BooleanField(default=False)
 	pub_date = models.DateTimeField('date published')
 	end_date = models.DateTimeField('end date')
+	unconfirmedVotes = models.IntegerField(default=0)
 	def __str__(self):
 		return self.ballot_name
 
@@ -60,7 +61,6 @@ class ContestantChoice(models.Model):
 	contestant_address = models.CharField(max_length=36, choices= CONTESTANT_ADDRESSES)
 	votes = models.IntegerField(default=0)
 	confirmedVotes = models.IntegerField(default=0)
-	unconfirmedVotes = models.IntegerField(default=0)
 
 	def __str__(self):
 		return self.contestant_name
