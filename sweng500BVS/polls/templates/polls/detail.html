@@ -20,20 +20,47 @@
 
 	<form action="{% url 'polls:vote' ballot.id %}" method="post">
 
-	{% csrf_token %}
+<!-- 	{% csrf_token %}
 	{% for choice in ballot.contestants.all %}
 		<input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{ choice.id }}" />
 		<label for="choice{{ forloop.counter }}" > {{ choice.contestant_name }}</label>
-		<!-- Display/Hide Counterparty Address -->
-		<br />
+		Display/Hide Counterparty Address -->
+<!-- 		<br />
 		<small for="choice{{ forloop.counter }}" > Bitcoin Address: {{ choice.contestant_address }}</small>
 		<br />
 
-		{% endfor %}
+		{% endfor %} --> 
+{% csrf_token %}
 
+<form class="form-horizontal">
+  <fieldset>
+  <!--   <legend>Legend</legend> -->
+    <div class="form-group">
+      <div class="col-lg-10">
+      {% for choice in ballot.contestants.all %}
+        <div class="radio">
+          <label><h4>
+            <input name="choice" id="choice{{forloop.counter}}" value="{{ choice.id }}"  type="radio">
+            <label for="choice{{ forloop.counter }}" > {{ choice.contestant_name }}</h4></label>
+            <br>
+            <small for="choice{{ forloop.counter }}" > Bitcoin Address: {{ choice.contestant_address }}</small>
+          </label>
+        </div>
+       {% endfor %}
+    </div>
+
+    <div class="form-group">
+    <div class="col-md-2"></div>
+      <div class="col-md-3 col-md-offset-2">
+        <button type="submit" value="vote" class="btn btn-primary">Submit</button>
+      </div>
+    <div class="col-md-2"></div>
+    </div>
+  </fieldset>
+</form>
 
 		<!-- Single button -->
-		<div class="btn-group">
+		<!-- <div class="btn-group">
 		  <button type="button submit" value="Vote" class="btn btn-danger">Vote</button>
 		</div>
 
@@ -43,5 +70,5 @@
 	</body>
 
 	</form>
-</div>
+</div> -->
 {% endblock %}
