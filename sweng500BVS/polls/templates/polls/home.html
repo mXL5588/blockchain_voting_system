@@ -2,15 +2,27 @@
 {% load staticfiles %}
 
 {% block body-content %}
-<ul class="breadcrumb">
-  <li class="active">Home</li>
-</ul>
+	<div class ="container">
+		<div class="row">
+			<ul class="breadcrumb">
+			  <li class="active">Home</li>
+			</ul>
+		</div>
 
+		<div class="row">
+			<div class="jumbotron">
+			  <h1>Blockchain Voting System </h1>
+			  <p>The Blockchain Voting System relys on the <a href="https://www.counterparty.io/">Counterparty</a> protocol and the <a href="https://www.bitcoin.com/"> Bitcoin</a> blockchain to record votes in a public and immutable fasion.</p>
+			  <p><a class="btn btn-primary btn-lg">Learn more</a></p>
+			</div>
+		</div>
 
-<div class="jumbotron">
-  <h1>Blockchain Voting System </h1>
-  <p>The Blockchain Voting System relys on the <a href="https://www.counterparty.io/">Counterparty</a> protocol and the <a href="https://www.bitcoin.com/"> Bitcoin</a> blockchain to record votes in an immutable fasion.</p>
-  <p><a class="btn btn-primary btn-lg">Learn more</a></p>
-</div>
+		<div class="row">
+			<blockquote class="blockquote">
+			  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+			  <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
+			</blockquote>
+		</div>
+	</div>
 
 {% endblock %}

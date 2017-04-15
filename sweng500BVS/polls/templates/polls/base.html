@@ -5,25 +5,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <html lang="en">
 <html>
-    <head>
+   
     {% block head-meta %}
     	<meta name="keywords" content="blockchain, counterparty, bitcoin, voting">
     	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	{% endblock %}
+
 	{% block head-title %}
-    	Blockchain Voting System
+    	 Blockchain Voting System
 	{% endblock %}
+
     {% block head-css %}
-    {% load staticfiles %}
-    	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
 		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.css' %}">
 		
 		<link rel="stylesheet" href="{% static 'css/polls.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" integrity="sha384-+ENW/yibaokMnme+vBLnHMphUYxHs34h9lpdbSLuAwGkOKFRl4C34WkjazBtb7eT" crossorigin="anonymous">
 		{# Load the tag library #}
 		{% load bootstrap3 %}
 
@@ -36,15 +39,19 @@
 	{% endblock %}
 
 	{% block body-javascript %}
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="../js/noty/packaged/jquery.noty.packaged.min.js"></script>
-	<script type="text/javascript" src="../js/noty/themes/bootstrap.js"></script>
-	<link rel="script" href="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}">
-	
+		<script type="text/javascript" src="../js/noty/packaged/jquery.noty.packaged.min.js"></script>
+		<script type="text/javascript" src="../js/noty/themes/bootstrap.js"></script>
+		<link rel="script" href="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></link>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script type="text/javascript" src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	{% endblock %}
+
 	{% block head-extension %}
+	<div class="container-fluid">
 		<nav class="navbar navbar-default">
-		  <div class="container-fluid">
+		  
 		    <div class="navbar-header">
 		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 		        <span class="sr-only">Toggle navigation</span>
@@ -89,25 +96,30 @@
 		         <li ><a href="{% url 'polls:login'  %}">{% bootstrap_icon "user" %} User Log In <span class="sr-only"></span></a></li>
 		      </ul>
 		    </div>
-		  </div>
+		  
 		</nav>
+		</div>
 		<br>
 	{% endblock %}
-    </head>
+
+  
     <body>
 
-	    <div class="content container">
+	    <div class="content container-fluid">
 	        <div class="page-header">
         	<h1><a href="/">Blockchain Voting System</a></h1>
-   
-    	</div>
+   			</div>
+    	
 	        <div class="row">
-	            <div class="col-md-8">
-	            {% block body-content %}
+	 
+	            <div class="col-md-6">
+ 					{% block body-content %}
 
-	            {% endblock %}
+					{% endblock %}
 	            </div>
+	         
 	        </div>
+
 	    </div>
     </body>
 </html>

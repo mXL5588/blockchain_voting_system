@@ -4,32 +4,44 @@
 
 
 {% block body-content %}
-<ul class="breadcrumb">
-  <li><a href="{%url  'polls:home' %}">Home</a></li>
-  <li><a href="{% url 'polls:index' %}">Ballots</a></li>
-  <li><a href="{% url 'polls:detail' ballot.id %}">Voting</a></li>
-  <li class="active">Results</li>
-</ul>
-
-
-		<h1> Ballot Results</h1>
-		<h4>Ballot Name: {{ ballot.ballot_name }}</h4>
+<div class="container">
+	<div class="row">
+		<ul class="breadcrumb">
+		  <li><a href="{%url  'polls:home' %}">Home</a></li>
+		  <li><a href="{% url 'polls:index' %}">Ballots</a></li>
+		  <li><a href="{% url 'polls:detail' ballot.id %}">Voting</a></li>
+		  <li class="active">Results</li>
+		</ul>
+	</div>
+	<div class="page-header">
+  		<h1>Ballot Results<br><small>Ballot Name: {{ ballot.ballot_name }}</small></h1>
 	</div>
 
-	<h5>Votest Tally From Database:</h5> <br />
-	<ul>
-		 {% for choice in ballot.contestants.all %}
-		 	<li>{{ choice.contestant_name }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }} </li>
-		 {% endfor %}
-
-	</ul>
-	<br />
-	<h5>Vote Tally from Counterparty:</h5> <br />
-	<ul>
-		 {% for choice in ballot.contestants.all %}
-		 	<li>{{ choice.contestant_name }} -- {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</li>
-		 {% endfor %}
-
-	</ul>
-
+	<div class="container">
+		<div class="row">
+			<div class="panel panel-default">
+			  <div class="panel-heading"><h5>Votest Tally From Database:</h5> </div>
+			  <div class="panel-body">
+					 <ul>
+					 {% for choice in ballot.contestants.all %}
+					 	<li>{{ choice.contestant_name }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }} </li>
+					 {% endfor %}
+					 </ul>
+			  </div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="panel panel-primary">
+			  <div class="panel-heading"><h5>Vote Tally from Counterparty:</h5> </div>
+			  <div class="panel-body">
+					<ul>
+						 {% for choice in ballot.contestants.all %}
+						 	<li>{{ choice.contestant_name }} -- {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</li>
+						 {% endfor %}
+					</ul>
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

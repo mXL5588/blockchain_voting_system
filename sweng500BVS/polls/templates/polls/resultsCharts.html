@@ -13,14 +13,18 @@
     {% endblock %}
 
 {% block body-content %}
+<div class="container">
+    <div class="row">
     <ul class="breadcrumb">
       <li><a href="{% url 'polls:home' %}">Home</a></li>
         <li><a href="{% url 'polls:allresults' %}">Results</a></li>
       <li class="active">Charts</li>
     </ul>
+    </div>
     {% block chart_code %}{% endblock %}
     </br></br></br>
     <a href="{% url 'polls:allresults'  %}">
         <button type="submit" class="btn btn-primary btn-lg btn-block"> Go Back</button>
     </a>
+</div>
 {% endblock %}

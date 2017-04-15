@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+# django-bootstrap-ui settings
+DJANGO_BOOTSTRAP_UI_THEME = 'bootswatch-flatly'
 # Application definition
 
 INSTALLED_APPS = [
@@ -127,5 +128,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# django-bootstrap-ui settings
-DJANGO_BOOTSTRAP_UI_THEME = 'bootswatch-flatly'
+

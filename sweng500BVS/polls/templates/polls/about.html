@@ -2,15 +2,22 @@
 {% load staticfiles %}
 
 {% block body-content %}
-<ul class="breadcrumb">
-  <li><a href="{% url 'polls:home' %}">Home</a></li>
-  <li class="active">About Us</li>
-</ul>
-	<h1> About Us </h1>
-	<h4> The Developers: </h4>
-		<small><ul>mxl</ul></small>
-		<small><ul>tms</ul></small>
-		<small><ul>ck</ul></small>
-		<small><ul>zc</ul></small>
+<div class="container">
+	<div class="row">
+		<ul class="breadcrumb">
+		  <li><a href="{% url 'polls:home' %}">Home</a></li>
+		  <li class="active">About Us</li>
+		</ul>
 	</div>
+	<div class="row">
+		<div class="page-header">
+  			<h1>About Us <br><small>The Developers: </small></h1>
+		</div>
+	</div>
+			<h3><ul>mxl5588</ul></h3>
+			<h3><ul>tmsandeep</ul></h3>
+			<h3><ul>ck</ul></h3>
+			<h3><ul>zc</ul></h3>
+</div>
+
 {% endblock %}
