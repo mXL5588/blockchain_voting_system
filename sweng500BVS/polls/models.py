@@ -14,18 +14,55 @@ BALLOT_ADDRESSES = (
 CONTESTANT_ADDRESSES = (
 	('mujVHE4aQ21SQDeDmg3kSyg37jFnTprUPy','contestant1Address'),
 	('mwxTvJ8zxziSeW7J357QxTWF534QMCEtsY','contestant2Address'),
+	('mygJdFGURTEsNLZs4tUuxBHmTxnriH3i6y','contestant3Address'),
+	('n4P1Hzeis1AdWSp8d3xrDmPepatKmQL7Pz','contestant4Address'),
+	('mgVAPC3Yow3K2wDx8bP25XrXbd1G5nvqyn','contestant5Address')
 	)
 
 VOTER_ADDRESSES = (
 	('mpMtRQUB9XeyXiJevZL6TuLxbvNJJys74j','Voter1Address'),
 	('miyLyx2bp4buCnRV4y93RKNH3Lp1s89zQa','Voter2Address'),
 	('n39HtcDLnXrxNH4yEra8K7QfVKLN2CJ3Sk','Voter3Address'),
+	('mprd13H5FSBYH51Eznvhhwn89Mkny9u1zH','Voter4Address'),
+	('mm7LYV3aNxEd45RcgGU7WD29JPqcBRBUSn','Voter5Address'),
+	('mz7fyLU79MWuCo6vZTyhEnGbsAbr64J5BB','Voter6Address'),
+	('mjzUjupW4LdNb56mNnj9DNDjpagowjgY99','Voter7Address'),
+	('mocxZTDcRP1XtBFc3EeAqScF1ahCmVV7uH','Voter8Address'),
+	('mzEa7GNeM4a77z5h9maWZVP9NKUaAvJo7h','Voter9Address'),
+	('mqE9f1YBdSkoovUQmQ1WCUoRbDWxt2tTtf','Voter10Address'),
+	('msf3JRk8aATVzKafhS1XE9eXLyWvNfgEQc','Voter11Address'),
+	('n4eRLRVVMXzEjWyhpPtJiQkJroX3NMydvj','Voter12Address'),
+	('mgsG2zssbMXKdDebSMCDDqC38wrkJZdB7V','Voter13Address'),
+	('mjxBEdw3cTZEdqADtv3TVGQMYJ4Ug6mMey','Voter14Address'),
+	('mh5uSJz9peDod9k4eDvCnDJreSBhMZXcUg','Voter15Address'),
+	('mxTBS9bmg2xToB3mrVjUBAhiZZyPi9Wy5u','Voter16Address'),
+	('mtfS7aoiURB8gwF3sBVdF2frEE8sdMrRJP','Voter17Address'),
+	('mwZ4nP3ZcUbAsD9nxQiih9Q3i7XcWTBcAX','Voter18Address'),
+	('mgaSJrRHGzPsCGxvWoZXwSzyWfG1m3pfqe','Voter19Address'),
+	('mxmfKdzYyxxjD1rz9rba7hBqWsfbbVSEcN','Voter20Address'),
 	)
 
 VOTER_NAMES = (
 	('Voter1','Voter1'),
 	('Voter2','Voter2'),
 	('Voter3','Voter3'),
+	('Voter4','Voter4'),
+	('Voter5','Voter5'),
+	('Voter6','Voter6'),
+	('Voter7','Voter7'),
+	('Voter8','Voter8'),
+	('Voter9','Voter9'),
+	('Voter10','Voter10'),
+	('Voter11','Voter11'),
+	('Voter12','Voter12'),
+	('Voter13','Voter13'),
+	('Voter14','Voter14'),
+	('Voter15','Voter15'),
+	('Voter16','Voter16'),
+	('Voter17','Voter17'),
+	('Voter18','Voter18'),
+	('Voter19','Voter19'),
+	('Voter20','Voter20'),
 	)
 
 class Ballot(models.Model):
