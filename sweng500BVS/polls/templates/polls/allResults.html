@@ -31,7 +31,7 @@
  				</br>
 				<ul>
 					 {% for choice in ballot.contestants.all %}
-					 	<li><h5>Contestant {{ choice.contestant_name }} Votes: {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</h5></li>
+					 	<li><h5>{{ choice.contestant_name }} - Votes: {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</h5></li>
 					 {% endfor %}
 					 <li><h5>Total Unconfirmed Votes: {{ballot.currentUnconfirmedVotes}}</h5></li>
 				</ul>
