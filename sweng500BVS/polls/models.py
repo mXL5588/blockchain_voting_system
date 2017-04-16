@@ -35,7 +35,8 @@ class Ballot(models.Model):
 	isItVoter = models.BooleanField(default=False)
 	pub_date = models.DateTimeField('date published')
 	end_date = models.DateTimeField('end date')
-	unconfirmedVotes = models.IntegerField(default=0)
+	totalUnconfirmedVotes = models.IntegerField(default=0)
+	currentUnconfirmedVotes = models.IntegerField(default=0)
 	def __str__(self):
 		return self.ballot_name
 

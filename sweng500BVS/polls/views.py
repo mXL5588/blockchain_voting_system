@@ -37,6 +37,9 @@ def Vote(request, ballot_id):
 				if voterList.currentVoterChoice == voter.voter_address:
 					voter.sendHex = getXCPTxInfo(jsonObj['result'])
 					voter.save()
+			ballot.totalUnconfirmedVotes = ballot.totalUnconfirmedVotes + 1
+			ballot.save()
+
 			print("Length: ",len(jsonObj['result']))
 			jsonObj = json.loads(response.text)
 			if 'error' in jsonObj:
@@ -45,7 +48,12 @@ def Vote(request, ballot_id):
 				jsonObj = json.loads(response.text)
 				if 'error' in jsonObj:
 					print("Response 3: ", jsonObj)
-					print("Confirmed Balance for:", selected_choice.contestant_name, ":", getBalance(selected_choice.contestant_address, ballot.ballot_name))
+					unconfirmedVotes = 0
+					for voter in ballot.voters.all():
+						if voter.sendHex != 'None' and getUnconfirmedQuantity(voter.sendHex) == 1 and getBalance(voter.voter_address,ballot.ballot_name) == 1:
+							unconfirmedVotes = unconfirmedVotes + 1
+					ballot.currentUnconfirmedVotes = ballot.totalUnconfirmedVotes - unconfirmedVotes
+					ballot.save()
 				else:
 					print("Error-3 Response: ", jsonObj)
 			else:
@@ -82,6 +90,7 @@ def LoginSubmit(request):
 		if voter.voter_name == request.POST['inputUserName']:
 			if voter.voter_name == request.POST['inputPassword']:
 				voterList.currentVoterChoice = voter.voter_address;
+				voterList.save()
 				return HttpResponseRedirect(reverse('polls:index'))
 			else:
 				return render(request, 'polls/login.html',
@@ -99,6 +108,7 @@ class IndexView(generic.ListView):
 
 	def get_queryset(self):
 		voterList = VotersList.objects.all()[0]
+		print(voterList.currentVoterChoice)
 		list = getAssetList(voterList.currentVoterChoice)
 		voterAddress = (voterList.currentVoterChoice)
 		ballotList = []
@@ -106,6 +116,7 @@ class IndexView(generic.ListView):
 			for ballot in Ballot.objects.all():
 				if name == ballot.ballot_name:
 					balanceCheck = getAssetBalance(voterAddress, name)
+					print(balanceCheck)
 					if balanceCheck >= 1:
 						for voter in ballot.voters.all():
 							if voterList.currentVoterChoice == voter.voter_address:
@@ -131,6 +142,15 @@ class AllResults(generic.ListView):
 	context_object_name = 'all_ballots_list'
 
 	def get_queryset(self):
+		for ballot in Ballot.objects.all():
+			unconfirmedVotes = 0
+			for voter in ballot.voters.all():
+				print(voter.sendHex," ", getUnconfirmedQuantity(voter.sendHex), " ", getBalance(voter.voter_address,ballot.ballot_name))
+				if voter.sendHex != 'None' and getUnconfirmedQuantity(voter.sendHex) == 1 and getBalance(voter.voter_address,ballot.ballot_name) == 1:
+					unconfirmedVotes = unconfirmedVotes + 1
+			ballot.currentUnconfirmedVotes = ballot.totalUnconfirmedVotes - unconfirmedVotes
+			ballot.save()
+			print(ballot.currentUnconfirmedVotes)
 		return Ballot.objects.all()
 
 
@@ -156,16 +176,10 @@ def HomeView(request):
 def BarChart(request, pk):
 	allBallot = Ballot.objects.all()
 	ballot = Ballot.objects.get( id=pk )
-	unconfirmedVotes = 0
-	for voter in ballot.voters.all():
-		if voter.sendHex != 'None':
-			if getUnconfirmedQuantity(voter.sendHex) == 1:
-				unconfirmedVotes = unconfirmedVotes + 1
 
-	for b in ballot.contestants.all():
-		b.confirmedVotes = getBallotCandidateBalance(b.contestant_address, ballot.ballot_name)
-		b.unconfirmedVotes = 10
-		b.save()
+	for c in ballot.contestants.all():
+		c.confirmedVotes = getBallotCandidateBalance(c.contestant_address, ballot.ballot_name)
+		c.save()
 
 	dataSource = DataPool(
 			series=[{

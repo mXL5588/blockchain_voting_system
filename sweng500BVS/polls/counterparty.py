@@ -35,7 +35,7 @@ def getBalance(address,asset):
     }
   node=json.dumps(payload)
   response = requests.post(url, data=node, headers=headers, auth=auth)
-  #print("Response for balance check: ", response.text)
+  print("Response for balance check: ", response.text)
   jsonObj = json.loads(response.text)
   for results in jsonObj['result']:
     if results['asset'] == asset:
@@ -76,7 +76,7 @@ def getAssetList(address):
     }
   node=json.dumps(payload)
   response = requests.post(url, data=node, headers=headers, auth=auth)
-  #print(response.text)
+  print(response.text)
   jsonObj = json.loads(response.text)
   for results in jsonObj['result']:
       result.append(results['asset'])
