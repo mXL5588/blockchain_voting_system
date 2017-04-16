@@ -9,11 +9,11 @@
 		  <li class="active">Log In</li>
 		</ul>
 	</div>
-	<div class="row">
+<!-- 	<div class="row">
 		<div class="page-header">
   			<h1>Voters List <br><small>Select a voter from the List:</small></h1>
 		</div>
-	</div>
+	</div> -->
 
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}</sm>
 
@@ -45,12 +45,15 @@
 	</form> -->
 	<form action="{% url 'polls:loginsubmit' %}" method="post" class="form-horizontal">
 	{% csrf_token %}
+	<div class="row">
+	<div class="col-md-3"></div>
+		<div class="jumbotron col-md-6">
 		<legend>User Log In</legend>
 
 		<div class="form-group">
 	    	<div class="col-md-1"></div>
 	      		<!-- <label for="inputUserName" class="col-md-2 control-label">UserName</label> -->
-	      	<div class="col-md-4">
+	      	<div class="col-md-10">
 	      	<label for="pwd">User Name:</label>
 	        	<input class="form-control" name="inputUserName" placeholder="User Name" type="text">
 	      	</div>
@@ -59,18 +62,24 @@
 	    <div class="form-group">
 	    	<div class="col-md-1"></div>
 	      		<!-- <label for="inputPassword" class="col-md-2 control-label">Password</label> -->
-	      	<div class="col-md-4">
+	      	<div class="col-md-10">
 	      	    <label for="pwd">Password:</label>
 	        	<td><input class="form-control" id="pwd" name="inputPassword" placeholder="Password" type="password"></td>
 	      	</div>
 	      	<div class="col-md-1"></div>
 	    </div>
-		<div class="btn-group">
-		  <button type="button submit" value="Save" class="btn btn-danger">Save</button>
+	    <div class="col-md-3"></div>
+	    <div class="btn-group col-md-3">
+		  <button type="button cancel"  value="Home" class="btn btn-default">Cancel</button>
+		</div>
+		<div class="btn-group col-md-3">
+		  <button type="button submit" value="Save" class="btn btn-primary">Log In</button>
 		</div>
 
 		<br />
 		<br />
+		</div>
+		</div>
 	</form>
 
 </div>
