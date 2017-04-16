@@ -10,6 +10,7 @@ from datetime import datetime
 from django.utils import timezone
 from django.views.generic import FormView  
 from chartit import DataPool, Chart
+import functools
 
 
 
@@ -136,6 +137,15 @@ class LoginView(generic.ListView):
 	def get_queryset(self):
 		return VotersList.objects.all()
 
+def toHex(s):
+    lst = []
+    for ch in s:
+        hv = hex(ord(ch)).replace('0x', '')
+        if len(hv) == 1:
+            hv = '0'+hv
+        lst.append(hv)
+    
+    return functools.reduce(lambda x,y:x+y, lst)
 
 class AllResults(generic.ListView):
 	template_name = 'polls/allResults.html'
@@ -145,8 +155,10 @@ class AllResults(generic.ListView):
 		for ballot in Ballot.objects.all():
 			unconfirmedVotes = 0
 			for voter in ballot.voters.all():
-				print(voter.sendHex," ", getUnconfirmedQuantity(voter.sendHex), " ", getBalance(voter.voter_address,ballot.ballot_name))
-				if voter.sendHex != 'None' and getUnconfirmedQuantity(voter.sendHex) == 1 and getBalance(voter.voter_address,ballot.ballot_name) == 1:
+				print(voter.sendHex)
+				print(toHex(voter.sendHex))
+				print(voter.sendHex," ", getBallotCandidateBalance(voter.voter_address,ballot.ballot_name))
+				if voter.sendHex != 'None'  and getBallotCandidateBalance(voter.voter_address,ballot.ballot_name) == 1:
 					unconfirmedVotes = unconfirmedVotes + 1
 			ballot.currentUnconfirmedVotes = ballot.totalUnconfirmedVotes - unconfirmedVotes
 			ballot.save()
