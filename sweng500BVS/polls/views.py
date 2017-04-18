@@ -51,9 +51,8 @@ def Vote(request, ballot_id):
 			for voter in ballot.voters.all():
 				if voterList.currentVoterChoice == voter.voter_address:
 					voter.sendHex = getXCPTxInfo(jsonObj['result'])
+					voter.sendAddr = getXCPDestAddr(jsonObj['result'])
 					voter.save()
-			ballot.totalUnconfirmedVotes = ballot.totalUnconfirmedVotes + 1
-			ballot.save()
 
 			print("Length: ",len(jsonObj['result']))
 			jsonObj = json.loads(response.text)
@@ -63,12 +62,17 @@ def Vote(request, ballot_id):
 				jsonObj = json.loads(response.text)
 				if 'error' in jsonObj:
 					print("Response 3: ", jsonObj)
-					unconfirmedVotes = 0
+					for contestant in ballot.contestants.all():
+						contestant.unconfirmedVotes = 0
+						contestant.save()
 					for voter in ballot.voters.all():
-						if voter.sendHex != 'None' and getUnconfirmedQuantity(voter.sendHex) == 1 and getBallotCandidateBalance(voter.voter_address,ballot.ballot_name) == 0:
-							unconfirmedVotes = unconfirmedVotes + 1
-					ballot.currentUnconfirmedVotes = ballot.totalUnconfirmedVotes - unconfirmedVotes
-					ballot.save()
+						print(voter.sendHex, " ", getBallotCandidateBalance(voter.voter_address,ballot.ballot_name))
+						if voter.sendHex != 'None' and getUnconfirmedQuantity(voter.sendHex) == 1 and getBallotCandidateBalance(voter.voter_address,ballot.ballot_name) == 1:
+							for contestant in ballot.contestants.all():
+								print(contestant.contestant_address, " ", voter.sendAddr)
+								if contestant.contestant_address == voter.sendAddr:
+									contestant.unconfirmedVotes = contestant.unconfirmedVotes + 1
+									contestant.save()
 				else:
 					print("Error-3 Response: ", jsonObj)
 			else:
@@ -158,12 +162,18 @@ class AllResults(generic.ListView):
 
 	def get_queryset(self):
 		for ballot in Ballot.objects.all():
-			unconfirmedVotes = 0
+			
+			for contestant in ballot.contestants.all():
+				contestant.unconfirmedVotes = 0
+				contestant.save()
+
 			for voter in ballot.voters.all():
-				if voter.sendHex != 'None' and getUnconfirmedQuantity(voter.sendHex) == 1 and getBallotCandidateBalance(voter.voter_address,ballot.ballot_name) == 0:
-					unconfirmedVotes = unconfirmedVotes + 1
-			ballot.currentUnconfirmedVotes = ballot.totalUnconfirmedVotes - unconfirmedVotes
-			ballot.save()
+				if voter.sendHex != 'None' and getUnconfirmedQuantity(voter.sendHex) == 1 and getBallotCandidateBalance(voter.voter_address,ballot.ballot_name) == 1:
+					for contestant in ballot.contestants.all():
+						print(ballot.ballot_name, " ", contestant.contestant_address, " ", voter.sendAddr)
+						if contestant.contestant_address == voter.sendAddr:
+							contestant.unconfirmedVotes = contestant.unconfirmedVotes + 1
+							contestant.save()
 		return Ballot.objects.all()
 
 
@@ -202,6 +212,7 @@ def BarChart(request, pk):
 			    'terms': [
 			    	'contestant_name',
 			    	'confirmedVotes',
+			    	'unconfirmedVotes'
 			    ]
 			}]
 	)
@@ -211,12 +222,13 @@ def BarChart(request, pk):
 			series_options=[{
 				'options': {
 					'type': 'column',
-					'stacking': False,
+					'stacking': True,
 					'stack': 0,
 	            },
 			    'terms': {
 					'contestant_name': [
-						'confirmedVotes'
+						'confirmedVotes',
+						'unconfirmedVotes'
 					]
 				}}
 			],

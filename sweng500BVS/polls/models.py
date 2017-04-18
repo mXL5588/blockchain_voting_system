@@ -72,8 +72,6 @@ class Ballot(models.Model):
 	isItVoter = models.BooleanField(default=False)
 	pub_date = models.DateTimeField('date published')
 	end_date = models.DateTimeField('end date')
-	totalUnconfirmedVotes = models.IntegerField(default=0)
-	currentUnconfirmedVotes = models.IntegerField(default=0)
 	def __str__(self):
 		return self.ballot_name
 
@@ -88,7 +86,8 @@ class VoterChoice(models.Model):
 	ballot = models.ForeignKey(Ballot, on_delete=models.CASCADE,related_name="voters", related_query_name="voters")
 	voter_name = models.CharField(max_length=200)
 	voter_address = models.CharField(max_length=36, choices= VOTER_ADDRESSES)
-	sendHex = models.CharField(max_length=366,default='None')
+	sendHex = models.CharField(max_length=366, default='None')
+	sendAddr = models.CharField(max_length=36, default='None')
 	
 	def __str__(self):
 		return self.voter_name
@@ -99,7 +98,8 @@ class ContestantChoice(models.Model):
 	contestant_address = models.CharField(max_length=36, choices= CONTESTANT_ADDRESSES)
 	votes = models.IntegerField(default=0)
 	confirmedVotes = models.IntegerField(default=0)
-
+	unconfirmedVotes = models.IntegerField(default=0)
+	
 	def __str__(self):
 		return self.contestant_name
 

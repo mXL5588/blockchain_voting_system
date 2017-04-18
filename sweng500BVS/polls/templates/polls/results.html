@@ -28,9 +28,10 @@
 				<div class="panel-heading"><h5>Votest Tally From Counterparty:</h5> </div>
 					<ul>
 						 {% for choice in ballot.contestants.all %}
-						 	<li><h5>Contestant {{ choice.contestant_name }} Votes: {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</h5></li>
+						 	<li><h5>{{ choice.contestant_name }}</h5></li>
+						 	<ul><h5>Confirmed Votes: {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</h5></ul>
+						 	<ul><h5>Unconfirmed Votes: {{choice.unconfirmedVotes}}</h5></ul>
 						 {% endfor %}
-						 <li><h5>Total Unconfirmed Votes: {{ballot.currentUnconfirmedVotes}}</h5></li>
 					</ul>
 				</div>
 			</div>

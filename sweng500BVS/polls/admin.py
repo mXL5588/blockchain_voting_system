@@ -98,7 +98,6 @@ class BallotAdmin(admin.ModelAdmin):
             if 'error' not in jsonObj:
               print("Response 1: ", jsonObj)
               response = signRawTransaction(jsonObj['result'])
-              unconfirmedAssetBalance = getUnconfirmedQuantity(getXCPTxInfo(jsonObj['result']))
               jsonObj = json.loads(response.text)
               if 'error' in jsonObj:
                 print("Response 2: ", jsonObj)
@@ -106,8 +105,6 @@ class BallotAdmin(admin.ModelAdmin):
                 jsonObj = json.loads(response.text)
                 if 'error' in jsonObj:
                   print("Response 3: ", jsonObj)
-                  print("Unconfirmed Balance for: ", instance.voter_name, ":", unconfirmedAssetBalance)
-                  print("Confirmed Balance for: ", instance.voter_name, ":", getBalance(instance.voter_address, form.instance.ballot_name))
                 else:
                   print("Error-3 Response: ", jsonObj)
               else:

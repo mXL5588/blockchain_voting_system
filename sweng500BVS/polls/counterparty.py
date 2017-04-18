@@ -356,8 +356,20 @@ def getXCPTxInfo(rawTransactionHex):
         dataHex = results
     return dataHex
 
+def getXCPDestAddr(rawTransactionHex):
+    objParams = {
+        "tx_hex": rawTransactionHex
+        }
+    txInfo = xcpHost.call('get_tx_info', objParams)
+    count = 1
+    for results in txInfo:
+      if count == 2:
+        return results
+      count = count + 1
+    return 0
+
 def getUnconfirmedQuantity(dataHex):
-    print("Data Hex: ", dataHex)
+    #print("Data Hex: ", dataHex)
     objParams = {
         "data_hex": dataHex
         }
