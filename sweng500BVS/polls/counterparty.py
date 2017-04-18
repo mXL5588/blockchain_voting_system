@@ -110,7 +110,7 @@ def createSend(srcAddress, destAddress, assetName):
                         'destination': destAddress,
                         'asset': assetName,
                         'quantity': 1,
-                        "allow_unconfirmed_inputs": True
+                        'allow_unconfirmed_inputs': True
                        },
              "jsonrpc": "2.0",
              "id": 0
