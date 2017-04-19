@@ -39,10 +39,9 @@ def Vote(request, ballot_id):
 					voter.sendAddr = getXCPDestAddr(jsonObj['result'])
 					voter.save()
 
-<<<<<<< HEAD
-=======
-			print("Length: ",len(jsonObj['result']))
->>>>>>> mxl5588/addfooter
+
+			#print("Length: ",len(jsonObj['result']))
+
 			jsonObj = json.loads(response.text)
 			if 'error' in jsonObj:
 				print("Response 2: ", jsonObj)
