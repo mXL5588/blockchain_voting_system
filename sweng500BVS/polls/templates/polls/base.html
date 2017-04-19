@@ -2,9 +2,9 @@
 {% load staticfiles %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<html lang="en">
-<html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+
    
     {% block head-meta %}
     	{{ block.super }}
@@ -103,17 +103,15 @@
 		    </div>
 		  
 		</nav>
-		</div>
-		<br>
+	</div>
+
 	{% endblock %}
 
-  
-    <body>
 
 	    <div class="content container-fluid">
-	        <div class="page-header">
+	       <!--  <div class="page-header">
         	<h1><a href="/">Blockchain Voting System</a></h1>
-   			</div>
+   			</div> -->
     	
 	        <div class="row">
 	 
@@ -121,12 +119,13 @@
  					{% block body-content %}
 
 					{% endblock %}
-	            </div>
-	         
-	        </div>
 
-	    </div>
-    </body>
+	            </div>
+	        
+	        </div>
+		</div>
+    
+
 </html>
 
 
