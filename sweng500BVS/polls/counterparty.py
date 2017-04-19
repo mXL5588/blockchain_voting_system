@@ -55,6 +55,7 @@ def getBallotCandidateBalance(candidateAddress, asset):
     }
   node=json.dumps(payload)
   response = requests.post(url, data=node, headers=headers, auth=auth)
+  print(response.text)
   jsonObj = json.loads(response.text)
   for results in jsonObj['result']:
     if results['asset'] == asset:

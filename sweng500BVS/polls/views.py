@@ -12,21 +12,6 @@ from django.views.generic import FormView
 from chartit import DataPool, Chart
 import functools
 
-def toHex(s):
-    lst = []
-    for ch in s:
-        hv = hex(ord(ch)).replace('0x', '')
-        if len(hv) == 1:
-            hv = '0'+hv
-        lst.append(hv)
-    
-    return functools.reduce(lambda x,y:x+y, lst)
-
-
-#convert hex repr to string
-def toStr(s):
-    return s and chr(atoi(s[:2], base=16)) + toStr(s[2:]) or ''
-
 
 def Vote(request, ballot_id):
 	#return HttpResponse("You're voting on ballot %s" % ballot_id)
@@ -54,7 +39,6 @@ def Vote(request, ballot_id):
 					voter.sendAddr = getXCPDestAddr(jsonObj['result'])
 					voter.save()
 
-			print("Length: ",len(jsonObj['result']))
 			jsonObj = json.loads(response.text)
 			if 'error' in jsonObj:
 				print("Response 2: ", jsonObj)
@@ -66,7 +50,6 @@ def Vote(request, ballot_id):
 						contestant.unconfirmedVotes = 0
 						contestant.save()
 					for voter in ballot.voters.all():
-						print(voter.sendHex, " ", getBallotCandidateBalance(voter.voter_address,ballot.ballot_name))
 						if voter.sendHex != 'None' and getUnconfirmedQuantity(voter.sendHex) == 1 and getBallotCandidateBalance(voter.voter_address,ballot.ballot_name) == 1:
 							for contestant in ballot.contestants.all():
 								print(contestant.contestant_address, " ", voter.sendAddr)
@@ -79,8 +62,7 @@ def Vote(request, ballot_id):
 				print("Error-2 Response: ", jsonObj)
 		else:
 			print("Error-1 Response: ", jsonObj)
-		selected_choice.votes += 1
-		selected_choice.save()
+
 
 		# Always return an HTTPResponseRedirect after successfully dealing 
 		# with POST data. This prevents data from being posted twice if a

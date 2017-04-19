@@ -96,7 +96,6 @@ class ContestantChoice(models.Model):
 	ballot = models.ForeignKey(Ballot, on_delete=models.CASCADE,related_name="contestants", related_query_name="contestants")
 	contestant_name = models.CharField(max_length=200)
 	contestant_address = models.CharField(max_length=36, choices= CONTESTANT_ADDRESSES)
-	votes = models.IntegerField(default=0)
 	confirmedVotes = models.IntegerField(default=0)
 	unconfirmedVotes = models.IntegerField(default=0)
 	
