@@ -17,30 +17,29 @@
   		<h1>Ballot Results</h1>
   		<h5>Click on Ballot Name to display its graph</h5>
 	</div>
-<ul class="nav nav-pills">
-  <li class="active"><a href="#">Home <span class="badge">42</span></a></li>
-  <li><a href="#">Profile <span class="badge"></span></a></li>
-  <li><a href="#">Messages <span class="badge">3</span></a></li>
-</ul>
+
 	<div class="container">
 		<div class="row">
-			<div class="panel panel-default">
-				<a href="{% url 'polls:chart' ballot.id %}" class="list-group-item active">
-					{{ ballot.ballot_name }}
- 				</a>
-				<div class="panel-body">
-				<div class="panel-heading"><h5>Votest Tally From Counterparty:</h5> </div>
+			{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+		</div>
+		
+		<div class="row col-md-5">
+			<div class="panel panel-primary">
+	  			<div class="panel-heading">
+	    			<h3 class="panel-title"><a href="{% url 'polls:chart' ballot.id %}" >{{ ballot.ballot_name }}</a></h3>
+	  			</div>
 					<ul>
+					 <div class="panel-body">
 						 {% for choice in ballot.contestants.all %}
 						 	<li><h5>{{ choice.contestant_name }}</h5></li>
 						 	<ul><h5>Confirmed Votes: {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</h5></ul>
-						 	<ul><h5>Unconfirmed Votes: {{choice.unconfirmedVotes}}</h5></ul>
+						 	<ul><h4><small>Unconfirmed Votes: {{choice.unconfirmedVotes}}</small></h4></ul>
 						 {% endfor %}
+					</div>
 					</ul>
-				</div>
 			</div>
-		</div>
 
+		</div>
 	</div>
 </div>
 {% endblock %}

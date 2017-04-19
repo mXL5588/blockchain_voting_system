@@ -34,8 +34,8 @@
   				<!-- <a href="{% url 'polls:chart' ballot.id %}" class="list-group-item active"> -->
     			<h3 class="panel-title"><a href="{% url 'polls:chart' ballot.id %}" >{{ ballot.ballot_name }}</a></h3>
   			</div>
- 				</a>
- 				</br>
+ 			
+ 			
 				<ul>
 				 <div class="panel-body">
 					 {% for choice in ballot.contestants.all %}
@@ -45,7 +45,7 @@
 					 {% endfor %}
 				</div>
 				</ul>
-				</br>
+			
 			</div>
 		{% endfor %}
 
