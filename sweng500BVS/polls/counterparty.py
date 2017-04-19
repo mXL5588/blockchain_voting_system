@@ -93,7 +93,8 @@ def createIssuance(address, assetName):
                 "divisible": False,
                 "description": "This is issuance of assets for ballot",
                 "transfer_destination": "",
-                "allow_unconfirmed_inputs": True
+                "allow_unconfirmed_inputs": True,
+                "fee_per_kb": 99999 
                },
      "jsonrpc": "2.0",
      "id": 0
@@ -110,7 +111,8 @@ def createSend(srcAddress, destAddress, assetName):
                         'destination': destAddress,
                         'asset': assetName,
                         'quantity': 1,
-                        'allow_unconfirmed_inputs': True
+                        'allow_unconfirmed_inputs': True,
+                        "fee_per_kb": 99999 
                        },
              "jsonrpc": "2.0",
              "id": 0
@@ -230,7 +232,8 @@ def createAsset(sourceAddress, assetName, assetQuantity, assetDescription, isDiv
                           "quantity": assetQuantity,
                           "description": assetDescription,
                           "divisible": isDivisible,
-                          "allow_unconfirmed_inputs": True}
+                          "allow_unconfirmed_inputs": True,
+                          "fee_per_kb": 99999 }
 
     unsignedTransaction = xcpHost.call('create_issuance', objParams)
     print("Unsigned Transaction:", unsignedTransaction)
@@ -273,7 +276,8 @@ def castVote(userSourceAddress, candidateAddress, assetName, voteQuantity):
   "destination": candidateAddress,
   "asset": assetName,
   "quantity": voteQuantity,
-  "allow_unconfirmed_inputs": True}
+  "allow_unconfirmed_inputs": True,
+  "fee_per_kb": 99999 }
   unsignedTransaction = xcpHost.call('create_send', objParams)
   print("Unsigned Transaction:", unsignedTransaction)
   return unsignedTransaction
