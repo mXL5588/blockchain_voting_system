@@ -17,19 +17,24 @@
 	</div>
 
 
-
-
-
-	{% if latest_ballot_list %}
-		<ul>
-		{% for ballot in latest_ballot_list %}
-			<li><a href="{% url 'polls:detail' ballot.id %}"> {{ ballot.ballot_name }}</a></li>
-			{% endfor %}
-		</ul>
-	{% else %}
-		<p>No polls are available.</p>
-	{% endif %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="list-group list-group-item-primary">
+					{% if latest_ballot_list %}
+						<ul>
+						{% for ballot in latest_ballot_list %}
+							<a href="{% url 'polls:detail' ballot.id %}" class="list-group-item"> {{ ballot.ballot_name }}</a>
+							{% endfor %}
+						</ul>
+					{% else %}
+						<p>No polls are available.</p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
 </div>
+
 
 {% endblock %}
 

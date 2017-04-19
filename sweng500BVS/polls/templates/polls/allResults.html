@@ -18,23 +18,32 @@
   			<h5>Click on Ballot Name to display its graph</h5>
 		</div>
 	</div>
+</div>
 
-
-	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
+<div class="container">
+	<div class="row">
+		{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	</div>
+	
+	<div class="row col-md-5">
 	{% if all_ballots_list %}
 		{% for ballot in all_ballots_list %}
-			<div class="list-group">
-  				<a href="{% url 'polls:chart' ballot.id %}" class="list-group-item active">
-    				{{ ballot.ballot_name }}
+		<div class="panel panel-primary">
+  			<div class="panel-heading">
+			<!-- <div class="list-group"> -->
+  				<!-- <a href="{% url 'polls:chart' ballot.id %}" class="list-group-item active"> -->
+    			<h3 class="panel-title"><a href="{% url 'polls:chart' ballot.id %}" >{{ ballot.ballot_name }}</a></h3>
+  			</div>
  				</a>
  				</br>
 				<ul>
+				 <div class="panel-body">
 					 {% for choice in ballot.contestants.all %}
 					 	<li><h5>{{ choice.contestant_name }}</h5></li>
 					 	<ul><h5>Confirmed Votes: {% getBallotCandidateBalance choice.contestant_address ballot.ballot_name %}</h5></ul>
-					 	<ul><h5>Unconfirmed Votes: {{choice.unconfirmedVotes}}</h5></ul>
+					 	<ul><h4><small>Unconfirmed Votes: {{choice.unconfirmedVotes}}</small></h4></ul>
 					 {% endfor %}
+				</div>
 				</ul>
 				</br>
 			</div>
@@ -44,6 +53,6 @@
 	{% else %}
 		<p>No Ballots to display.</p>
 	{% endif %}
-<br>
+	</div>
 </div>
 {% endblock %}

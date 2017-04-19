@@ -27,8 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# django-bootstrap-ui settings
-DJANGO_BOOTSTRAP_UI_THEME = 'bootswatch-flatly'
 # Application definition
 
 INSTALLED_APPS = [
@@ -76,6 +74,9 @@ TEMPLATES = [
         },
     },
 ]
+
+# django-bootstrap-ui settings
+DJANGO_BOOTSTRAP_UI_THEME = 'bootswatch-slate'
 
 WSGI_APPLICATION = 'sweng500BVS.wsgi.application'
 
