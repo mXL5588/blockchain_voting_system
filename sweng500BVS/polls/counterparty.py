@@ -55,7 +55,6 @@ def getBallotCandidateBalance(candidateAddress, asset):
     }
   node=json.dumps(payload)
   response = requests.post(url, data=node, headers=headers, auth=auth)
-  print(response.text)
   jsonObj = json.loads(response.text)
   for results in jsonObj['result']:
     if results['asset'] == asset:
@@ -90,7 +89,7 @@ def createIssuance(address, assetName):
      "params": {
                 "source": address,
                 "asset": assetName,
-                "quantity": 10,
+                "quantity": 40,
                 "divisible": False,
                 "description": "This is issuance of assets for ballot",
                 "transfer_destination": "",
