@@ -43,6 +43,17 @@ class BallotAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         print("Issuance: ", obj.ballot_address)
+        sendBTCToAddress('miyLyx2bp4buCnRV4y93RKNH3Lp1s89zQa', .2)
+
+        response = createSend('mocxZTDcRP1XtBFc3EeAqScF1ahCmVV7uH', 'mh4w5JnU662ddHywJU3X1wYL6mufjd6Egz',  'BESTIDE')
+        jsonObj = json.loads(response.text)
+        if 'error' not in jsonObj:
+          print("Response 1: ", jsonObj)
+          response = signRawTransaction(jsonObj['result'])
+          jsonObj = json.loads(response.text)
+          if 'error' in jsonObj:
+            print("Response 2: ", jsonObj)
+            response = sendRawTransaction(jsonObj['result']['hex'])
         if obj.ballot_issued == False:
           #input code to check XCP balance here then execute burnBTC if the amount is less than .5 XCP
           #burnBTC(sourceAddress, AmountInSatoshisToBurn)

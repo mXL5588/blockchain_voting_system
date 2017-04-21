@@ -89,7 +89,7 @@ def createIssuance(address, assetName):
      "params": {
                 "source": address,
                 "asset": assetName,
-                "quantity": 200,
+                "quantity": 40,
                 "divisible": False,
                 "description": "This is issuance of assets for ballot",
                 "transfer_destination": "",
