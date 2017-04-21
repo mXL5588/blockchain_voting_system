@@ -92,7 +92,7 @@ class BallotAdmin(admin.ModelAdmin):
             #validate a bitcoin address
             validCheck = validateAddress(instance.voter_address)
             #send fee amount to voter for resend to candidate
-            sendBTCToAddress(instance.voter_address, .03)
+            sendBTCToAddress(instance.voter_address, .06)
             response = createSend(form.instance.ballot_address, instance.voter_address, form.instance.ballot_name)
             jsonObj = json.loads(response.text)
             if 'error' not in jsonObj:

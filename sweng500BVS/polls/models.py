@@ -16,7 +16,12 @@ CONTESTANT_ADDRESSES = (
 	('mwxTvJ8zxziSeW7J357QxTWF534QMCEtsY','contestant2Address'),
 	('mygJdFGURTEsNLZs4tUuxBHmTxnriH3i6y','contestant3Address'),
 	('n4P1Hzeis1AdWSp8d3xrDmPepatKmQL7Pz','contestant4Address'),
-	('mgVAPC3Yow3K2wDx8bP25XrXbd1G5nvqyn','contestant5Address')
+	('mgVAPC3Yow3K2wDx8bP25XrXbd1G5nvqyn','contestant5Address'),
+	('mqaKWkQevJDpBSuBx7i45gaytiyYwf1KJW','contestant6Address'),
+	('mkNYWRhzY74rJ8QRH9nMHGADEwYSnp2Q5c','contestant7Address'),
+	('n3qswyanPxpRDzihvzwRpuV3zdUi3MDuAx','contestant8Address'),
+	('mvYejuDNRECgfhgGBGdHyhNsHYZBD5tMdm','contestant9Address'),
+	('n3JK9sGRSHwYVipaVh5Ly8j51S3hJCa1PE','contestant10Address'),
 	)
 
 VOTER_ADDRESSES = (

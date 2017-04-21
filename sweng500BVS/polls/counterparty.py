@@ -93,8 +93,7 @@ def createIssuance(address, assetName):
                 "divisible": False,
                 "description": "This is issuance of assets for ballot",
                 "transfer_destination": "",
-                "allow_unconfirmed_inputs": True,
-                "fee_per_kb": 99999 
+                "allow_unconfirmed_inputs": True
                },
      "jsonrpc": "2.0",
      "id": 0
@@ -111,8 +110,7 @@ def createSend(srcAddress, destAddress, assetName):
                         'destination': destAddress,
                         'asset': assetName,
                         'quantity': 1,
-                        'allow_unconfirmed_inputs': True,
-                        "fee_per_kb": 99999 
+                        'allow_unconfirmed_inputs': True
                        },
              "jsonrpc": "2.0",
              "id": 0

@@ -55,7 +55,6 @@ def Vote(request, ballot_id):
 					for voter in ballot.voters.all():
 						if voter.sendHex != 'None' and getUnconfirmedQuantity(voter.sendHex) == 1 and getBallotCandidateBalance(voter.voter_address,ballot.ballot_name) == 1:
 							for contestant in ballot.contestants.all():
-								print(contestant.contestant_address, " ", voter.sendAddr)
 								if contestant.contestant_address == voter.sendAddr:
 									contestant.unconfirmedVotes = contestant.unconfirmedVotes + 1
 									contestant.save()
@@ -112,7 +111,6 @@ class IndexView(generic.ListView):
 
 	def get_queryset(self):
 		voterList = VotersList.objects.all()[0]
-		print(voterList.currentVoterChoice)
 		list = getAssetList(voterList.currentVoterChoice)
 		voterAddress = (voterList.currentVoterChoice)
 		ballotList = []
@@ -120,7 +118,6 @@ class IndexView(generic.ListView):
 			for ballot in Ballot.objects.all():
 				if name == ballot.ballot_name:
 					balanceCheck = getAssetBalance(voterAddress, name)
-					print(balanceCheck)
 					if balanceCheck >= 1:
 						for voter in ballot.voters.all():
 							if voterList.currentVoterChoice == voter.voter_address:
@@ -155,7 +152,7 @@ class AllResults(generic.ListView):
 			for voter in ballot.voters.all():
 				if voter.sendHex != 'None' and getUnconfirmedQuantity(voter.sendHex) == 1 and getBallotCandidateBalance(voter.voter_address,ballot.ballot_name) == 1:
 					for contestant in ballot.contestants.all():
-						print(ballot.ballot_name, " ", contestant.contestant_address, " ", voter.sendAddr)
+						#print(ballot.ballot_name, " ", contestant.contestant_address, " ", voter.sendAddr)
 						if contestant.contestant_address == voter.sendAddr:
 							contestant.unconfirmedVotes = contestant.unconfirmedVotes + 1
 							contestant.save()
