@@ -53,7 +53,12 @@ def Vote(request, ballot_id):
 						contestant.unconfirmedVotes = 0
 						contestant.save()
 					for voter in ballot.voters.all():
+						# print("Voter send hex", voter.sendHex)
+						# if voter.sendHex != 'None':
+						# 	print ("Unconfirmed Qty: ", getUnconfirmedQuantity(voter.sendHex))
+						# 	print("Ballot Candidate Balance: ", getBallotCandidateBalance(voter.voter_address,ballot.ballot_name))
 						if voter.sendHex != 'None' and getUnconfirmedQuantity(voter.sendHex) == 1 and getBallotCandidateBalance(voter.voter_address,ballot.ballot_name) == 1:
+							print("Unconfirmed exists")
 							for contestant in ballot.contestants.all():
 								if contestant.contestant_address == voter.sendAddr:
 									contestant.unconfirmedVotes = contestant.unconfirmedVotes + 1
@@ -97,9 +102,9 @@ def LoginSubmit(request):
 				return HttpResponseRedirect(reverse('polls:index'))
 			else:
 				return render(request, 'polls/login.html',
-					{ 'voterList': voterList, 'error_message': "Invalid passwrod",})
+					{ 'voterList': voterList, 'error_message': "Invalid user name or password",})
 	return render(request, 'polls/login.html',
-		{ 'voterList': voterList, 'error_message': "Invalid credentials",})
+		{ 'voterList': voterList, 'error_message': "Invalid user name or password",})
 
 
 		
@@ -136,6 +141,7 @@ class LoginView(generic.ListView):
 
 	def get_queryset(self):
 		return VotersList.objects.all()
+
 
 
 class AllResults(generic.ListView):

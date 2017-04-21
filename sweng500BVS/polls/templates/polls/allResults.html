@@ -22,7 +22,13 @@
 
 <div class="container">
 	<div class="row">
-		{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+			{% if error_message %}
+			<div class="alert alert-dismissible alert-danger">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  
+			  <strong>Oh snap!</strong> <p><strong>{{ error_message }}</strong>  </p>
+			</div>
+			 {% endif %}
 	</div>
 	
 	<div class="row col-md-5">

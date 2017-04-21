@@ -15,9 +15,14 @@
 		</div>
 	</div> -->
 
-	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}</sm>
-
- 
+	<!-- {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}</sm> -->
+{% if error_message %}
+<div class="alert alert-dismissible alert-danger">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  
+  <strong>Oh snap!</strong> <p><strong>{{ error_message }}</strong>  - Try submitting again. </p>
+</div>
+ {% endif %}
 <!-- 	<form action="{% url 'polls:loginsubmit' %}" method="post">
 	{% csrf_token %}
 		<legend>User Log In</legend>
@@ -55,7 +60,7 @@
 	      		<!-- <label for="inputUserName" class="col-md-2 control-label">UserName</label> -->
 	      	<div class="col-md-10">
 	      	<label for="pwd">User Name:</label>
-	        	<input class="form-control" name="inputUserName" placeholder="User Name" type="text">
+	        	<input class="form-control" name="inputUserName" placeholder="Enter User Name" type="text">
 	      	</div>
 	      	<div class="col-md-1"></div>
 	    </div>
@@ -64,13 +69,13 @@
 	      		<!-- <label for="inputPassword" class="col-md-2 control-label">Password</label> -->
 	      	<div class="col-md-10">
 	      	    <label for="pwd">Password:</label>
-	        	<td><input class="form-control" id="pwd" name="inputPassword" placeholder="Password" type="password"></td>
+	        	<td><input class="form-control" id="pwd" name="inputPassword" placeholder="Enter Password" type="password"></td>
 	      	</div>
 	      	<div class="col-md-1"></div>
 	    </div>
 	    <div class="col-md-3"></div>
 	    <div class="btn-group col-md-3">
-		  <button type="button cancel"  value="Home" class="btn btn-default">Cancel</button>
+		  <button type="button reset" value="reset" class="btn btn-default">Cancel</button>
 		</div>
 		<div class="btn-group col-md-3">
 		  <button type="button submit" value="Save" class="btn btn-primary">Log In</button>
