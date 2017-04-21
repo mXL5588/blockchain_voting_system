@@ -27,8 +27,8 @@ class BallotAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['ballot_name']}),
         (None,               {'fields': ['ballot_address']}),
-        ('Date information', {'fields': ['pub_date'], 'classes': ['expand']}),
-        ('Date information', {'fields': ['end_date'], 'classes': ['expand']}),
+        ('Ballot Start Date', {'fields': ['pub_date'], 'classes': ['expand']}),
+        ('Ballot End Date', {'fields': ['end_date'], 'classes': ['expand']}),
     ]
     #inlines = []
     inlines = [ContestantChoiceInline,VoterChoiceInline]
