@@ -42,7 +42,6 @@ class BallotAdmin(admin.ModelAdmin):
     search_fields = ['ballot_name']
 
     def save_model(self, request, obj, form, change):
-        print("********************************************************************************")
         print("Issuance: ", obj.ballot_address)
         if obj.ballot_issued == False:
           #input code to check XCP balance here then execute burnBTC if the amount is less than .5 XCP
@@ -79,7 +78,6 @@ class BallotAdmin(admin.ModelAdmin):
 
         
     def save_formset(self, request, form, formset, change):
-      print("___________________________________________________________________________________")
       # Create instances. Each instance will be a "row" (obj) of the inline model
       instances = formset.save(commit=False)
       if form.instance.isItVoter == True:
@@ -92,7 +90,7 @@ class BallotAdmin(admin.ModelAdmin):
             #validate a bitcoin address
             validCheck = validateAddress(instance.voter_address)
             #send fee amount to voter for resend to candidate
-            sendBTCToAddress(instance.voter_address, .06)
+            sendBTCToAddress(instance.voter_address, .09)
             response = createSend(form.instance.ballot_address, instance.voter_address, form.instance.ballot_name)
             jsonObj = json.loads(response.text)
             if 'error' not in jsonObj:
